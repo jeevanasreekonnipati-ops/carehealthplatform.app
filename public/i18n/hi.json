@@ -1,0 +1,21 @@
+{
+  "nav.home": "होम",
+  "nav.login": "लॉगिन",
+  "nav.dashboard": "डैशबोर्ड",
+  "nav.logout": "लॉगआउट",
+  "hero.title": "आपका स्वास्थ्य, जुड़ा हुआ",
+  "hero.subtitle": "अस्पताल खोजें, अपॉइंटमेंट बुक करें, जीवनचिह्न ट्रैक करें।",
+  "hero.cta": "शुरू करें",
+  "maps.addressPlaceholder": "पता दर्ज करें",
+  "maps.search": "खोजें",
+  "maps.myLocation": "मेरा स्थान उपयोग करें",
+  "voice.start": "वॉइस शुरू करें",
+  "login.title": "लॉगिन",
+  "login.email": "ईमेल",
+  "login.password": "पासवर्ड",
+  "login.submit": "लॉगिन",
+  "dash.welcome": "स्वागत है",
+  "dash.appointments": "अपॉइंटमेंट्स",
+  "dash.prescriptions": "प्रिस्क्रिप्शन्स",
+  "dash.vitals": "हेल्थ वाइटल्स"
+}

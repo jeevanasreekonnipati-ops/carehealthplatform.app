@@ -1,0 +1,21 @@
+{
+  "nav.home": "Home",
+  "nav.login": "Login",
+  "nav.dashboard": "Dashboard",
+  "nav.logout": "Logout",
+  "hero.title": "Your health, connected",
+  "hero.subtitle": "Find hospitals, book appointments, track vitals.",
+  "hero.cta": "Get Started",
+  "maps.addressPlaceholder": "Enter address",
+  "maps.search": "Search",
+  "maps.myLocation": "Use my location",
+  "voice.start": "Start voice",
+  "login.title": "Login",
+  "login.email": "Email",
+  "login.password": "Password",
+  "login.submit": "Login",
+  "dash.welcome": "Welcome",
+  "dash.appointments": "Appointments",
+  "dash.prescriptions": "Prescriptions",
+  "dash.vitals": "Health Vitals"
+}

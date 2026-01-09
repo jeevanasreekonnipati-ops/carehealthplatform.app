@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Smart Health Connect</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Login</h1>
+  </header>
+
+  <section class="login-box">
+    <form onsubmit="return loginUser()">
+      <label>Email:</label>
+      <input type="email" id="email" required>
+      
+      <label>Password:</label>
+      <input type="password" id="password" required>
+      
+      <button type="submit" class="btn">Login</button>
+    </form>
+    <p id="login-msg"></p>
+  </section>
+</body>
+<script src="script.js"></script>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <header class="gradient">
+    <h1 data-i18n="dash.welcome">Welcome, <%= user.name %> 🎉</h1>
+    <nav>
+      <a href="/" data-i18n="nav.home">Home</a>
+      <form action="/api/auth/logout" method="POST" style="display:inline">
+        <button class="linklike" data-i18n="nav.logout">Logout</button>
+      </form>
+      <select id="lang-select">
+        <option value="en">English</option>
+        <option value="te">తెలుగు</option>
+        <option value="hi">हिंदी</option>
+      </select>
+    </nav>
+  </header>
+
+  <section class="grid">
+    <div class="card"><h3 data-i18n="dash.appointments">Appointments</h3><p>...</p></div>
+    <div class="card"><h3 data-i18n="dash.prescriptions">Prescriptions</h3><p>...</p></div>
+    <div class="card"><h3 data-i18n="dash.vitals">Health Vitals</h3><p>...</p></div>
+  </section>
+</body>
+</html>

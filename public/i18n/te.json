@@ -1,0 +1,21 @@
+{
+  "nav.home": "హోమ్",
+  "nav.login": "లాగిన్",
+  "nav.dashboard": "డాష్‌బోర్డ్",
+  "nav.logout": "లాగ్అవుట్",
+  "hero.title": "మీ ఆరోగ్యం, కలిపి",
+  "hero.subtitle": "ఆసుపత్రులు కనుగొనండి, అపాయింట్‌మెంట్ బుక్ చేయండి, వైటల్స్‌ను ట్రాక్ చేయండి.",
+  "hero.cta": "ప్రారంభించండి",
+  "maps.addressPlaceholder": "చిరునామా నమోదు చేయండి",
+  "maps.search": "శోధించండి",
+  "maps.myLocation": "నా స్థానాన్ని ఉపయోగించు",
+  "voice.start": "వాయిస్ ప్రారంభించండి",
+  "login.title": "లాగిన్",
+  "login.email": "ఈమెయిల్",
+  "login.password": "పాస్వర్డ్",
+  "login.submit": "లాగిన్",
+  "dash.welcome": "స్వాగతం",
+  "dash.appointments": "అపాయింట్‌మెంట్లు",
+  "dash.prescriptions": "ప్రిస్క్రిప్షన్లు",
+  "dash.vitals": "హెల్త్ వైటల్స్"
+}

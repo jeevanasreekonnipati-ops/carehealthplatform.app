@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Smart Health Connect</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/app.js"></script>
+  <script defer src="/voice.js"></script>
+  <script defer src="/maps.js"></script>
+</head>
+<body>
+  <header class="gradient">
+    <h1>🌈 Smart Health Connect</h1>
+    <nav>
+      <a data-i18n="nav.home" href="/">Home</a>
+      <% if (!user) { %>
+        <a data-i18n="nav.login" href="/login">Login</a>
+      <% } else { %>
+        <a data-i18n="nav.dashboard" href="/dashboard">Dashboard</a>
+        <form action="/api/auth/logout" method="POST" style="display:inline">
+          <button class="linklike" data-i18n="nav.logout">Logout</button>
+        </form>
+      <% } %>
+      <select id="lang-select">
+        <option value="en">English</option>
+        <option value="te">తెలుగు</option>
+        <option value="hi">हिंदी</option>
+      </select>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2 data-i18n="hero.title">Your health, connected</h2>
+    <p data-i18n="hero.subtitle">Find hospitals, book appointments, track vitals.</p>
+    <button class="btn" data-i18n="hero.cta" onclick="window.location='/login'">Get Started</button>
+  </section>
+
+  <section class="maps-panel">
+    <div class="search-row">
+      <input id="address-input" type="text" placeholder="Enter address" data-placeholder-i18n="maps.addressPlaceholder">
+      <button class="btn" onclick="geocodeAndCenter()" data-i18n="maps.search">Search</button>
+      <button class="btn alt" onclick="useMyLocation()" data-i18n="maps.myLocation">Use my location</button>
+      <button class="btn voice" onclick="startVoice()" data-i18n="voice.start">🎤 Voice</button>
+    </div>
+    <div id="map"></div>
+    <ul id="hospital-list"></ul>
+  </section>
+
+  <script async src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.GOOGLE_API_KEY %>&libraries=places"></script>
+</body>
+</html>

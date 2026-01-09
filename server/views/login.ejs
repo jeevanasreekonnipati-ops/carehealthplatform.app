@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="gradient"><h1 data-i18n="login.title">Login</h1></header>
+  <section class="box">
+    <% if (error) { %><p class="error"><%= error %></p><% } %>
+    <form action="/api/auth/login" method="POST">
+      <label data-i18n="login.email">Email</label>
+      <input type="email" name="email" required>
+      <label data-i18n="login.password">Password</label>
+      <input type="password" name="password" required>
+      <button class="btn" type="submit" data-i18n="login.submit">Login</button>
+    </form>
+  </section>
+</body>
+</html>
