@@ -1,27 +1,32 @@
-
- {
+{
    "name": "healthapp",
    "version": "1.0.0",
-   "description": "",
-   "main": "index.js",
+   "description": "Smart Health Connect - Healthcare Management Platform",
+   "main": "server/server.js",
    "scripts": {
-     "start": "node server/server.js",
-     "dev": "nodemon server/server.js"
+      "start": "node server/server.js",
+      "dev": "nodemon server/server.js"
    },
-   "keywords": [],
+   "keywords": [
+      "health",
+      "healthcare",
+      "hospitals"
+   ],
    "author": "",
    "license": "ISC",
    "type": "commonjs",
-  "dependencies": {
-    "body-parser": "^2.2.2",
-    "dotenv": "^17.2.3",
-    "ejs": "^3.1.10",
-    "express": "^5.2.1",
-    "express-session": "^1.18.2",
-     "node-fetch": "^3.3.2"
-   },
-   "devDependencies": {
-     "nodemon": "^3.1.11"
-  }
- }
- 
+   "dependencies": {
+      "bcryptjs": "^2.4.3",
+      "body-parser": "^1.20.2",
+      "dotenv": "^17.2.3",
+      "ejs": "^3.1.10",
+      "express": "^4.18.2",
+      "express-session": "^1.18.2",
+      "firebase-admin": "^13.6.0",
+      "node-fetch": "^3.3.2",
+      "passport": "^0.7.0",
+      "passport-google-oauth20": "^2.0.0",
+      "socket.io": "^4.8.3",
+      "sqlite3": "^5.1.6"
+   }
+}

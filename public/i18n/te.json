@@ -10,12 +10,20 @@
   "maps.search": "శోధించండి",
   "maps.myLocation": "నా స్థానాన్ని ఉపయోగించు",
   "voice.start": "వాయిస్ ప్రారంభించండి",
-  "login.title": "లాగిన్",
+  "login.title": "మీ ఖాతాకు లాగిన్ చేయండి",
   "login.email": "ఈమెయిల్",
+  "login.email_placeholder": "మీ@ఈమెయిల్.కాం",
   "login.password": "పాస్వర్డ్",
+  "login.password_placeholder": "మీ పాస్‌వర్డ్‌ను నమోదు చేయండి",
   "login.submit": "లాగిన్",
+  "login.demo_title": "డెమో సన్నివేశాలు",
+  "dash.title": "డాష్‌బోర్డ్",
+  "dash.subtitle": "మీ ఆరోగ్యం మరియు నియామకాలను నిర్వహించండి",
   "dash.welcome": "స్వాగతం",
   "dash.appointments": "అపాయింట్‌మెంట్లు",
+  "dash.appointments_desc": "డాక్టర్ నియామకాలను చూడండి మరియు బుక్ చేయండి",
   "dash.prescriptions": "ప్రిస్క్రిప్షన్లు",
-  "dash.vitals": "హెల్త్ వైటల్స్"
+  "dash.prescriptions_desc": "మీ వైద్య ప్రిస్క్రిప్షన్‌లను నిర్వహించండి",
+  "dash.vitals": "హెల్త్ వైటల్స్",
+  "dash.vitals_desc": "మీ ఆరోగ్య మెట్రిక్‌లను ట్రాక్ చేయండి"
 }

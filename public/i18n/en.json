@@ -10,12 +10,20 @@
   "maps.search": "Search",
   "maps.myLocation": "Use my location",
   "voice.start": "Start voice",
-  "login.title": "Login",
+  "login.title": "Login to Your Account",
   "login.email": "Email",
+  "login.email_placeholder": "your@email.com",
   "login.password": "Password",
+  "login.password_placeholder": "Enter your password",
   "login.submit": "Login",
+  "login.demo_title": "Demo Credentials",
+  "dash.title": "Dashboard",
+  "dash.subtitle": "Manage your health and appointments",
   "dash.welcome": "Welcome",
   "dash.appointments": "Appointments",
+  "dash.appointments_desc": "View and book doctor appointments",
   "dash.prescriptions": "Prescriptions",
-  "dash.vitals": "Health Vitals"
+  "dash.prescriptions_desc": "Manage your medical prescriptions",
+  "dash.vitals": "Health Vitals",
+  "dash.vitals_desc": "Track your health metrics"
 }

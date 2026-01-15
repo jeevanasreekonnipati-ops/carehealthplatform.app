@@ -1,40 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title>Smart Health Connect</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Health Connect - Healthcare Platform</title>
   <link rel="stylesheet" href="/style.css">
   <script defer src="/app.js"></script>
   <script defer src="/voice.js"></script>
-  <script defer src="/maps.js"></script>
+  <script defer src="/map.js"></script>
 </head>
+
 <body>
   <header class="gradient">
-    <h1>🌈 Smart Health Connect</h1>
+    <a href="/" class="logo-container">
+      <svg class="logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="95" fill="#ffffff" stroke="#2575fc" stroke-width="3" />
+        <defs>
+          <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#6a11cb;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#2575fc;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect x="85" y="50" width="30" height="100" fill="url(#logoGradient)" rx="5" />
+        <rect x="50" y="85" width="100" height="30" fill="url(#logoGradient)" rx="5" />
+        <path
+          d="M 35 140 L 50 140 L 60 125 L 70 145 L 80 135 L 100 155 L 120 135 L 130 145 L 140 125 L 150 140 L 165 140"
+          fill="none" stroke="#ff6f61" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <span class="brand-text">Smart Health</span>
+    </a>
     <nav>
       <a data-i18n="nav.home" href="/">Home</a>
       <% if (!user) { %>
         <a data-i18n="nav.login" href="/login">Login</a>
-      <% } else { %>
-        <a data-i18n="nav.dashboard" href="/dashboard">Dashboard</a>
-        <form action="/api/auth/logout" method="POST" style="display:inline">
-          <button class="linklike" data-i18n="nav.logout">Logout</button>
-        </form>
-      <% } %>
-      <select id="lang-select">
-        <option value="en">English</option>
-        <option value="te">తెలుగు</option>
-        <option value="hi">हिंदी</option>
-      </select>
+        <% } else { %>
+          <a data-i18n="nav.dashboard" href="/dashboard">Dashboard</a>
+          <form action="/logout" method="GET" style="display:inline">
+            <button class="linklike" data-i18n="nav.logout">Logout</button>
+          </form>
+          <% } %>
+            <select id="lang-select">
+              <option value="en">English</option>
+              <option value="te">తెలుగు</option>
+              <option value="hi">हिंदी</option>
+            </select>
     </nav>
   </header>
 
   <section class="hero">
-    <h2 data-i18n="hero.title">Your health, connected</h2>
-    <p data-i18n="hero.subtitle">Find hospitals, book appointments, track vitals.</p>
+    <svg class="hero-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="95" fill="#ffffff" stroke="#2575fc" stroke-width="3" />
+      <defs>
+        <linearGradient id="heroGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#6a11cb;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#2575fc;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <rect x="85" y="50" width="30" height="100" fill="url(#heroGradient)" rx="5" />
+      <rect x="50" y="85" width="100" height="30" fill="url(#heroGradient)" rx="5" />
+      <path d="M 35 140 L 50 140 L 60 125 L 70 145 L 80 135 L 100 155 L 120 135 L 130 145 L 140 125 L 150 140 L 165 140"
+        fill="none" stroke="#ff6f61" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+
+    <h2 data-i18n="hero.title">Your Health, Connected</h2>
+    <p data-i18n="hero.subtitle">Find hospitals, book appointments, track vitals - all in one place</p>
     <button class="btn" data-i18n="hero.cta" onclick="window.location='/login'">Get Started</button>
   </section>
 
+  <section class="box">
+    <h2 style="text-align: center; color: #2575fc;">💊 Healthcare Features</h2>
+    <div style="text-align: center; padding: 20px;">
+      <p>Comprehensive health management at your fingertips</p>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="card">
+      <h3>🏥 Find Hospitals</h3>
+      <p>Locate nearby healthcare facilities with ease</p>
+    </div>
+    <div class="card">
+      <h3>👨‍⚕️ Book Doctors</h3>
+      <p>Schedule appointments with qualified physicians</p>
+    </div>
+    <div class="card">
+      <h3>📋 Track Health</h3>
+      <p>Monitor your vital signs and health metrics</p>
+    </div>
+    <div class="card">
+      <h3>💊 Medicine Orders</h3>
+      <p>Order prescriptions online with home delivery</p>
+    </div>
+    <div class="card">
+      <h3>🗣️ Multi-Language</h3>
+      <p>Support for English, Hindi, and Telugu</p>
+    </div>
+    <div class="card">
+      <h3>🔒 Secure & Safe</h3>
+      <p>Your health data is encrypted and protected</p>
+    </div>
+  </section>
+
   <section class="maps-panel">
+    <h2 style="text-align: center; margin-bottom: 20px;">📍 Find Healthcare Near You</h2>
     <div class="search-row">
       <input id="address-input" type="text" placeholder="Enter address" data-placeholder-i18n="maps.addressPlaceholder">
       <button class="btn" onclick="geocodeAndCenter()" data-i18n="maps.search">Search</button>
@@ -45,6 +114,12 @@
     <ul id="hospital-list"></ul>
   </section>
 
-  <script async src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.GOOGLE_API_KEY %>&libraries=places"></script>
+  <footer>
+    <p>© 2026 Smart Health Connect | Your Health, Our Priority</p>
+    <p style="font-size: 12px; margin-top: 8px;">Secure • Reliable • Accessible</p>
+  </footer>
+
+  <script async src="https://maps.googleapis.com/maps/api/js?key=<%= googleApiKey %>&libraries=places"></script>
 </body>
+
 </html>

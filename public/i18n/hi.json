@@ -10,12 +10,20 @@
   "maps.search": "खोजें",
   "maps.myLocation": "मेरा स्थान उपयोग करें",
   "voice.start": "वॉइस शुरू करें",
-  "login.title": "लॉगिन",
+  "login.title": "अपने खाते में लॉगिन करें",
   "login.email": "ईमेल",
+  "login.email_placeholder": "आपका@ईमेल.कॉम",
   "login.password": "पासवर्ड",
+  "login.password_placeholder": "अपना पासवर्ड दर्ज करें",
   "login.submit": "लॉगिन",
+  "login.demo_title": "डेमो क्रेडेंशियल्स",
+  "dash.title": "डैशबोर्ड",
+  "dash.subtitle": "अपने स्वास्थ्य और अपॉइंटमेंट्स को प्रबंधित करें",
   "dash.welcome": "स्वागत है",
   "dash.appointments": "अपॉइंटमेंट्स",
+  "dash.appointments_desc": "डॉक्टर की अपॉइंटमेंट्स देखें और बुक करें",
   "dash.prescriptions": "प्रिस्क्रिप्शन्स",
-  "dash.vitals": "हेल्थ वाइटल्स"
+  "dash.prescriptions_desc": "अपनी चिकित्सा प्रिस्क्रिप्शन्स को प्रबंधित करें",
+  "dash.vitals": "हेल्थ वाइटल्स",
+  "dash.vitals_desc": "अपने स्वास्थ्य मेट्रिक्स ट्रैक करें"
 }

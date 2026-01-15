@@ -1,20 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Smart Health Connect</title>
   <link rel="stylesheet" href="/style.css">
+  <script defer src="/app.js"></script>
+  <style>
+    .login-container {
+      max-width: 450px;
+      margin: 60px auto;
+    }
+    .login-logo {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      display: block;
+    }
+  </style>
 </head>
 <body>
-  <header class="gradient"><h1 data-i18n="login.title">Login</h1></header>
-  <section class="box">
-    <% if (error) { %><p class="error"><%= error %></p><% } %>
-    <form action="/api/auth/login" method="POST">
-      <label data-i18n="login.email">Email</label>
-      <input type="email" name="email" required>
-      <label data-i18n="login.password">Password</label>
-      <input type="password" name="password" required>
-      <button class="btn" type="submit" data-i18n="login.submit">Login</button>
-    </form>
+  <header class="gradient">
+    <a href="/" class="logo-container">
+      <svg class="logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="95" fill="#ffffff" stroke="#2575fc" stroke-width="3"/>
+        <defs>
+          <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#6a11cb;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#2575fc;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect x="85" y="50" width="30" height="100" fill="url(#logoGradient)" rx="5"/>
+        <rect x="50" y="85" width="100" height="30" fill="url(#logoGradient)" rx="5"/>
+        <path d="M 35 140 L 50 140 L 60 125 L 70 145 L 80 135 L 100 155 L 120 135 L 130 145 L 140 125 L 150 140 L 165 140" 
+              fill="none" stroke="#ff6f61" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-text">Smart Health</span>
+    </a>
+    <nav>
+      <a href="/" data-i18n="nav.home">Home</a>
+      <select id="lang-select">
+        <option value="en">English</option>
+        <option value="te">తెలుగు</option>
+        <option value="hi">हिंदी</option>
+      </select>
+    </nav>
+  </header>
+
+  <section class="login-container">
+    <svg class="login-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="95" fill="#ffffff" stroke="#2575fc" stroke-width="3"/>
+      <defs>
+        <linearGradient id="loginGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#6a11cb;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#2575fc;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <rect x="85" y="50" width="30" height="100" fill="url(#loginGradient)" rx="5"/>
+      <rect x="50" y="85" width="100" height="30" fill="url(#loginGradient)" rx="5"/>
+      <path d="M 35 140 L 50 140 L 60 125 L 70 145 L 80 135 L 100 155 L 120 135 L 130 145 L 140 125 L 150 140 L 165 140" 
+            fill="none" stroke="#ff6f61" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+    <div class="box">
+      <h2 data-i18n="login.title" style="text-align: center; color: #2575fc;">Login to Your Account</h2>
+      <% if (error) { %><p class="error" style="text-align: center;">⚠️ <%= error %></p><% } %>
+      
+      <!-- Google Sign-In Button -->
+      <div style="margin-bottom: 20px;">
+        <a href="/auth/google" class="btn" style="display: block; text-align: center; text-decoration: none; background: #4285F4; padding: 12px; border-radius: 4px;">
+          <svg style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px; display: inline-block;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <g transform="matrix(1, 0, 0, 1, 27.009766, -39.238281)">
+              <path fill="#4285F4" d="M -3.264 51.509 C -3.264 50.719 -3.334 49.969 -3.454 49.239 L -14.754 49.239 L -14.754 53.749 L -8.284 53.749 C -8.574 55.229 -9.424 56.479 -10.684 57.329 L -10.684 60.329 L -6.824 60.329 C -4.564 58.239 -3.264 55.159 -3.264 51.509 Z"/>
+              <path fill="#34A853" d="M -14.754 63.239 C -11.514 63.239 -8.804 62.159 -6.824 60.329 L -10.684 57.329 C -11.764 58.049 -13.134 58.489 -14.754 58.489 C -17.884 58.489 -20.534 56.379 -21.484 53.529 L -25.464 53.529 L -25.464 56.619 C -23.494 60.539 -19.444 63.239 -14.754 63.239 Z"/>
+              <path fill="#FBBC05" d="M -21.484 53.529 C -21.734 52.809 -21.864 52.039 -21.864 51.239 C -21.864 50.439 -21.724 49.669 -21.484 48.949 L -21.484 45.859 L -25.464 45.859 C -26.284 47.479 -26.754 49.299 -26.754 51.239 C -26.754 53.179 -26.284 54.999 -25.464 56.619 L -21.484 53.529 Z"/>
+              <path fill="#EA4335" d="M -14.754 43.989 C -13.004 43.989 -11.404 44.599 -10.154 45.789 L -6.734 42.369 C -8.804 40.429 -11.514 39.239 -14.754 39.239 C -19.444 39.239 -23.494 41.939 -25.464 45.859 L -21.484 48.949 C -20.534 46.099 -17.884 43.989 -14.754 43.989 Z"/>
+            </g>
+          </svg>
+          Continue with Google
+        </a>
+      </div>
+
+      <div style="text-align: center; margin-bottom: 20px; position: relative;">
+        <span style="background: white; padding: 0 10px; position: relative; z-index: 1; color: #999; font-size: 14px;">or</span>
+        <div style="position: absolute; top: 50%; left: 0; right: 0; border-top: 1px solid #ddd; z-index: 0;"></div>
+      </div>
+      
+      <form action="/auth/login" method="POST">
+        <div style="margin-bottom: 16px;">
+          <label for="email" data-i18n="login.email" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            required 
+            data-placeholder-i18n="login.email_placeholder"
+            placeholder="your@email.com"
+            style="width: 100%; padding: 10px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; transition: border-color 0.3s;"
+          >
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <label for="password" data-i18n="login.password" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            required
+            data-placeholder-i18n="login.password_placeholder"
+            placeholder="Enter your password"
+            style="width: 100%; padding: 10px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; transition: border-color 0.3s;"
+          >
+        </div>
+
+        <button class="btn" type="submit" data-i18n="login.submit" style="width: 100%; padding: 12px; font-size: 16px; font-weight: 600;">Login</button>
+      </form>
+
+      <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; font-size: 12px; color: #666;">
+        <strong data-i18n="login.demo_title" style="display: block; margin-bottom: 10px;">📝 Demo Credentials:</strong>
+        <p style="margin: 5px 0;">Email: <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px;">user@example.com</code></p>
+        <p style="margin: 5px 0;">Password: <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px;">1234</code></p>
+      </div>
+    </div>
   </section>
+
+  <footer>
+    <p>© 2026 Smart Health Connect | Secure Health Management</p>
+  </footer>
 </body>
 </html>
