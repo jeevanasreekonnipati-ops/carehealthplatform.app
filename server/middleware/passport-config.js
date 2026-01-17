@@ -1,6 +1,6 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const { getUserByEmail, getUserById, getUserByGoogleId, createGoogleUser } = require('../database');
+const { User } = require('../models');
 
 // Serialize user for session
 passport.serializeUser((user, done) => {
@@ -10,7 +10,7 @@ passport.serializeUser((user, done) => {
 // Deserialize user from session
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await getUserById(id);
+    const user = await User.findByPk(id);
     done(null, user);
   } catch (error) {
     done(error, null);
@@ -23,34 +23,41 @@ passport.use(new GoogleStrategy({
   clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'your-google-client-secret',
   callbackURL: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:3000/auth/google/callback'
 },
-async (accessToken, refreshToken, profile, done) => {
-  try {
-    // Extract user info from Google profile
-    const { email, name, picture, id: googleId } = profile._json;
-    
-    // Check if user exists by Google ID first
-    let user = await getUserByGoogleId(googleId);
-    
-    if (!user) {
-      // Check if email already exists (from email/password signup)
-      user = await getUserByEmail(email);
-      
+  async (accessToken, refreshToken, profile, done) => {
+    try {
+      // Extract user info from Google profile
+      const { email, name, picture, id: googleId } = profile._json;
+
+      // Check if user exists by Google ID
+      let user = await User.findOne({ where: { googleId } });
+
       if (!user) {
-        // Create new user with Google data
-        user = await createGoogleUser({ email, name, picture, id: googleId });
-        console.log('New Google user created:', email);
-      } else {
-        // Link Google account to existing email user
-        console.log('Linking Google account to existing user:', email);
+        // Check if email already exists
+        user = await User.findOne({ where: { email } });
+
+        if (user) {
+          // Link Google account to existing user
+          user.googleId = googleId;
+          if (!user.photo) user.photo = picture;
+          await user.save();
+        } else {
+          // Create new user
+          user = await User.create({
+            email,
+            name: name || 'User',
+            photo: picture,
+            googleId,
+            role: 'patient'
+          });
+        }
       }
+
+      return done(null, user);
+    } catch (error) {
+      console.error('Google OAuth error:', error);
+      return done(error, null);
     }
-    
-    return done(null, user);
-  } catch (error) {
-    console.error('Google OAuth error:', error);
-    return done(error, null);
   }
-}
 ));
 
 module.exports = passport;

@@ -2,14 +2,29 @@ const express = require("express");
 const path = require("path");
 const session = require("express-session");
 const passport = require("passport");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 const config = require("./config");
 const authRoutes = require("./routes/auth");
 const hospitalRoutes = require("./routes/hospitals");
+const doctorRoutes = require("./routes/doctors");
+const appointmentRoutes = require("./routes/appointments");
+const vitalRoutes = require("./routes/vitals");
+const medicineRoutes = require("./routes/medicines");
+const orderRoutes = require("./routes/orders");
 const { requireAuth, redirectIfLoggedIn } = require("./middleware/auth");
+const db = require("./models");
 require("./middleware/passport-config");
 
 // Initialize Express App
 const app = express();
+
+// Sync Database
+db.sequelize.sync({ force: false, alter: true }).then(() => {
+  console.log("Database synced");
+}).catch(err => {
+  console.error("Failed to sync database:", err);
+});
 
 // View engine setup
 app.set("view engine", "ejs");
@@ -41,6 +56,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Security headers
+app.use(helmet({
+  contentSecurityPolicy: false, // Disabling CSP for now to avoid breaking Google Maps/Scripts
+}));
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
+app.use(limiter);
+
+// Security headers (custom)
 app.use((req, res, next) => {
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("X-Frame-Options", "DENY");
@@ -61,8 +88,17 @@ app.get("/dashboard", requireAuth, (req, res) => {
   res.render("dashboard", { user: req.user, googleApiKey: process.env.GOOGLE_API_KEY });
 });
 
+
+
+// ...
+
 app.use("/auth", authRoutes);
 app.use("/api/hospitals", hospitalRoutes);
+app.use("/doctors", doctorRoutes);
+app.use("/api/appointments", appointmentRoutes);
+app.use("/api/vitals", vitalRoutes);
+app.use("/pharmacy", medicineRoutes);
+app.use("/api/orders", orderRoutes);
 
 app.get("/logout", (req, res) => {
   req.logout((err) => {

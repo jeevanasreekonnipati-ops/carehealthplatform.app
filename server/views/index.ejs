@@ -9,117 +9,174 @@
   <script defer src="/app.js"></script>
   <script defer src="/voice.js"></script>
   <script defer src="/map.js"></script>
+  <!-- Google Fonts for Modern Typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <header class="gradient">
-    <a href="/" class="logo-container">
-      <svg class="logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="100" cy="100" r="95" fill="#ffffff" stroke="#2575fc" stroke-width="3" />
-        <defs>
-          <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#6a11cb;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#2575fc;stop-opacity:1" />
-          </linearGradient>
-        </defs>
-        <rect x="85" y="50" width="30" height="100" fill="url(#logoGradient)" rx="5" />
-        <rect x="50" y="85" width="100" height="30" fill="url(#logoGradient)" rx="5" />
-        <path
-          d="M 35 140 L 50 140 L 60 125 L 70 145 L 80 135 L 100 155 L 120 135 L 130 145 L 140 125 L 150 140 L 165 140"
-          fill="none" stroke="#ff6f61" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-      <span class="brand-text">Smart Health</span>
-    </a>
-    <nav>
-      <a data-i18n="nav.home" href="/">Home</a>
-      <% if (!user) { %>
-        <a data-i18n="nav.login" href="/login">Login</a>
-        <% } else { %>
-          <a data-i18n="nav.dashboard" href="/dashboard">Dashboard</a>
-          <form action="/logout" method="GET" style="display:inline">
-            <button class="linklike" data-i18n="nav.logout">Logout</button>
-          </form>
-          <% } %>
-            <select id="lang-select">
-              <option value="en">English</option>
-              <option value="te">తెలుగు</option>
-              <option value="hi">हिंदी</option>
-            </select>
-    </nav>
-  </header>
+  <%- include('partials/header', { user: user }) %>
 
-  <section class="hero">
-    <svg class="hero-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="100" cy="100" r="95" fill="#ffffff" stroke="#2575fc" stroke-width="3" />
-      <defs>
-        <linearGradient id="heroGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#6a11cb;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#2575fc;stop-opacity:1" />
-        </linearGradient>
-      </defs>
-      <rect x="85" y="50" width="30" height="100" fill="url(#heroGradient)" rx="5" />
-      <rect x="50" y="85" width="100" height="30" fill="url(#heroGradient)" rx="5" />
-      <path d="M 35 140 L 50 140 L 60 125 L 70 145 L 80 135 L 100 155 L 120 135 L 130 145 L 140 125 L 150 140 L 165 140"
-        fill="none" stroke="#ff6f61" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
+    <main>
+      <section class="hero-section">
+        <div class="hero-content">
+          <h1 class="animate-up">Your Health, <br><span class="highlight">Reimagined.</span></h1>
+          <p class="animate-up delay-1">Experience the future of healthcare. Book appointments, order medicines, and
+            track your history - all in one seamless platform.</p>
+          <div class="hero-buttons animate-up delay-2">
+            <% if (!user) { %>
+              <button class="btn large" onclick="window.location='/login'">Get Started</button>
+              <% } else { %>
+                <button class="btn large" onclick="window.location='/dashboard'">Go to Dashboard</button>
+                <% } %>
+                  <button class="btn large outline"
+                    onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})">Learn
+                    More</button>
+          </div>
+        </div>
+        <div class="hero-visual animate-fade">
+          <div class="floating-shape shape-1"></div>
+          <div class="floating-shape shape-2"></div>
+          <div class="glass-card main-card">
+            <h3>🏥 Find Hospitals</h3>
+            <p>Real-time availability</p>
+          </div>
+          <div class="glass-card secondary-card">
+            <h3>👨‍⚕️ Top Doctors</h3>
+            <p>Book instantly</p>
+          </div>
+        </div>
+      </section>
 
-    <h2 data-i18n="hero.title">Your Health, Connected</h2>
-    <p data-i18n="hero.subtitle">Find hospitals, book appointments, track vitals - all in one place</p>
-    <button class="btn" data-i18n="hero.cta" onclick="window.location='/login'">Get Started</button>
-  </section>
 
-  <section class="box">
-    <h2 style="text-align: center; color: #2575fc;">💊 Healthcare Features</h2>
-    <div style="text-align: center; padding: 20px;">
-      <p>Comprehensive health management at your fingertips</p>
-    </div>
-  </section>
 
-  <section class="grid">
-    <div class="card">
-      <h3>🏥 Find Hospitals</h3>
-      <p>Locate nearby healthcare facilities with ease</p>
-    </div>
-    <div class="card">
-      <h3>👨‍⚕️ Book Doctors</h3>
-      <p>Schedule appointments with qualified physicians</p>
-    </div>
-    <div class="card">
-      <h3>📋 Track Health</h3>
-      <p>Monitor your vital signs and health metrics</p>
-    </div>
-    <div class="card">
-      <h3>💊 Medicine Orders</h3>
-      <p>Order prescriptions online with home delivery</p>
-    </div>
-    <div class="card">
-      <h3>🗣️ Multi-Language</h3>
-      <p>Support for English, Hindi, and Telugu</p>
-    </div>
-    <div class="card">
-      <h3>🔒 Secure & Safe</h3>
-      <p>Your health data is encrypted and protected</p>
-    </div>
-  </section>
+      <section id="features" class="container">
+        <div class="section-header">
+          <h2>Why Choose Smart Health?</h2>
+          <p>Comprehensive care designed around your needs.</p>
+        </div>
 
-  <section class="maps-panel">
-    <h2 style="text-align: center; margin-bottom: 20px;">📍 Find Healthcare Near You</h2>
-    <div class="search-row">
-      <input id="address-input" type="text" placeholder="Enter address" data-placeholder-i18n="maps.addressPlaceholder">
-      <button class="btn" onclick="geocodeAndCenter()" data-i18n="maps.search">Search</button>
-      <button class="btn alt" onclick="useMyLocation()" data-i18n="maps.myLocation">Use my location</button>
-      <button class="btn voice" onclick="startVoice()" data-i18n="voice.start">🎤 Voice</button>
-    </div>
-    <div id="map"></div>
-    <ul id="hospital-list"></ul>
-  </section>
+        <div class="grid">
+          <div class="card feature-card">
+            <div class="icon">🏥</div>
+            <h3>Hospital Finder</h3>
+            <p>Locate nearby hospitals with real-time bed availability and insurance checks.</p>
+          </div>
+          <div class="card feature-card">
+            <div class="icon">👨‍⚕️</div>
+            <h3>Expert Doctors</h3>
+            <p>Connect with top specialists. Video consultations or in-person visits.</p>
+          </div>
+          <div class="card feature-card">
+            <div class="icon">💊</div>
+            <h3>Online Pharmacy</h3>
+            <p>Order medicines with a tap. Upload prescriptions and get fast delivery.</p>
+          </div>
+          <div class="card feature-card">
+            <div class="icon">📊</div>
+            <h3>Health Tracking</h3>
+            <p>Monitor your vitals. Visual charts for heart rate, BP, and more.</p>
+          </div>
+          <div class="card feature-card">
+            <div class="icon">🔒</div>
+            <h3>Secure Data</h3>
+            <p>Your medical records are encrypted and safe with us. HIPAA compliant.</p>
+          </div>
+          <div class="card feature-card">
+            <div class="icon">🗣️</div>
+            <h3>Multi-Language</h3>
+            <p>Accessible in English, Hindi, and Telugu for everyone.</p>
+          </div>
+        </div>
+      </section>
 
-  <footer>
-    <p>© 2026 Smart Health Connect | Your Health, Our Priority</p>
-    <p style="font-size: 12px; margin-top: 8px;">Secure • Reliable • Accessible</p>
-  </footer>
+      <!-- Hospital Search Preview -->
+      <section class="maps-panel container">
+        <div class="section-header">
+          <h2>📍 Find Healthcare Near You</h2>
+          <p>Search by specialty, rating, or location.</p>
+        </div>
+        <div class="search-row">
+          <input id="address-input" type="text" placeholder="Enter city or zip code...">
+          <button class="btn" onclick="geocodeAndCenter()">Search</button>
+          <button class="btn alt" onclick="useMyLocation()">Use my location</button>
+        </div>
 
-  <script async src="https://maps.googleapis.com/maps/api/js?key=<%= googleApiKey %>&libraries=places"></script>
+        <!-- Filters -->
+        <div class="filter-row" style="margin: 15px 0; display: flex; gap: 10px; flex-wrap: wrap;">
+          <select id="specialty-filter" style="flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #ddd;">
+            <option value="">All Specialties</option>
+            <option value="Cardiology">Cardiology</option>
+            <option value="Neurology">Neurology</option>
+            <option value="Pediatrics">Pediatrics</option>
+            <option value="Orthopedics">Orthopedics</option>
+            <option value="Emergency">Emergency</option>
+          </select>
+          <select id="rating-filter" style="flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #ddd;">
+            <option value="">All Ratings</option>
+            <option value="4">4+ Stars</option>
+            <option value="3">3+ Stars</option>
+          </select>
+          <button class="btn" onclick="applyFilters()" style="background: #2575fc;">Apply Filters</button>
+        </div>
+        <div id="map"></div>
+        <ul id="hospital-list"></ul>
+      </section>
+
+      <section class="testimonials container" style="margin-bottom: 60px;">
+        <div class="section-header">
+          <h2>Patient Stories</h2>
+        </div>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+          <div class="card testimonial-card">
+            <p>"Smart Health saved me so much time. I found a cardiologist and booked an appointment in minutes!"</p>
+            <div class="user-info">
+              <strong>- Priya Sharma</strong>
+              <span>⭐⭐⭐⭐⭐</span>
+            </div>
+          </div>
+          <div class="card testimonial-card">
+            <p>"The online pharmacy is a lifesaver for my elderly parents. Medicines delivered right to the door."</p>
+            <div class="user-info">
+              <strong>- Rahul Verma</strong>
+              <span>⭐⭐⭐⭐⭐</span>
+            </div>
+          </div>
+          <div class="card testimonial-card">
+            <p>"Tracking my blood pressure has never been easier. My doctor loves the reports I can share."</p>
+            <div class="user-info">
+              <strong>- Anita Desai</strong>
+              <span>⭐⭐⭐⭐⭐</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-content">
+        <div>
+          <h3>Smart Health Connect</h3>
+          <p>Making healthcare accessible, affordable, and efficient for everyone.</p>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <a href="/doctors">Doctors</a><br>
+          <a href="/pharmacy">Pharmacy</a><br>
+          <a href="/dashboard">Dashboard</a>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <p>support@smarthealth.com</p>
+          <p>+91 1800-HEALTH</p>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>© 2026 Smart Health Connect. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script async
+      src="https://maps.googleapis.com/maps/api/js?key=<%= googleApiKey %>&libraries=places&callback=initMap"></script>
 </body>
 
 </html>

@@ -1,36 +1,42 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
-const { getUserByEmail, verifyPassword } = require('../database');
+const { User } = require('../models');
 const { validateLogin, sanitizeEmail } = require('../middleware/validation');
 
 // POST login - Traditional email/password login
 router.post('/login', validateLogin, async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log('Login attempt for:', email);
 
-    // Check if user exists
-    const user = await getUserByEmail(email);
+    // Check if user exists (case insensitive)
+    const user = await User.findOne({ where: { email: email.toLowerCase() } });
+
     if (!user) {
+      console.log('User not found:', email);
       return res.status(401).render('login', { error: 'Invalid email or password', user: null });
     }
 
     // Verify password
-    if (!verifyPassword(password, user.password)) {
+    if (!user.validPassword(password)) {
+      console.log('Invalid password for:', email);
       return res.status(401).render('login', { error: 'Invalid email or password', user: null });
     }
 
     // Create session
-    req.user = {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-    };
-
-    res.redirect('/dashboard');
+    req.login(user, (err) => {
+      if (err) {
+        console.error('Login session error:', err);
+        return res.status(500).render('login', { error: 'Session error', user: null });
+      }
+      console.log('Login successful for:', email);
+      return res.redirect('/dashboard');
+    });
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).render('login', { error: 'Server error. Please try again.', user: null });
+    require('fs').writeFileSync('debug_error.log', JSON.stringify({ message: error.message, stack: error.stack }, null, 2));
+    res.status(500).render('login', { error: 'Server error: ' + error.message, user: null });
   }
 });
 

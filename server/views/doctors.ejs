@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Doctors - Smart Health</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .doctor-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 4px solid #e2e8f0;
+            transition: border-color 0.3s;
+        }
+
+        .card:hover .doctor-img {
+            border-color: var(--primary);
+        }
+
+        .rating {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('partials/header', { user: user }) %>
+
+        <div class="container">
+            <div class="section-header" style="margin-top: 40px;">
+                <h2>👨‍⚕️ Top Specialists</h2>
+                <p>Book appointments with the best doctors in your area.</p>
+            </div>
+
+            <div class="filter-row"
+                style="margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto; display: flex; gap: 10px; flex-wrap: wrap;">
+                <input type="text" id="docSearch" placeholder="Search doctor by name..."
+                    style="flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;"
+                    value="<%= typeof query !== 'undefined' ? query : '' %>">
+                <select id="docSpecialty"
+                    style="padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; min-width: 200px;">
+                    <option value="">All Specialties</option>
+                    <option value="Cardiology">Cardiology</option>
+                    <option value="Pediatrics">Pediatrics</option>
+                    <option value="Neurology">Neurology</option>
+                    <option value="Orthopedics">Orthopedics</option>
+                    <option value="General Medicine">General Medicine</option>
+                    <option value="Dermatology">Dermatology</option>
+                    <option value="Gynecology">Gynecology</option>
+                    <option value="Psychiatry">Psychiatry</option>
+                </select>
+                <button class="btn" onclick="filterDoctors()">Search</button>
+            </div>
+
+            <script>
+                // Pre-select specialty if present in URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const currentSpecialty = urlParams.get('specialty');
+                if (currentSpecialty) {
+                    document.getElementById('docSpecialty').value = currentSpecialty;
+                }
+
+                function filterDoctors() {
+                    const query = document.getElementById('docSearch').value;
+                    const specialty = document.getElementById('docSpecialty').value;
+                    let url = '?';
+                    if (query) url += `query=${encodeURIComponent(query)}&`;
+                    if (specialty) url += `specialty=${encodeURIComponent(specialty)}`;
+                    window.location.href = url;
+                }
+            </script>
+
+            <div class="grid">
+                <% doctors.forEach(doc=> { %>
+                    <div class="card" style="text-align: center;">
+                        <img src="<%= doc.image %>" alt="<%= doc.name %>" class="doctor-img">
+                        <h3 style="margin-bottom: 5px;">
+                            <%= doc.name %>
+                        </h3>
+                        <span class="badge">
+                            <%= doc.specialization %>
+                        </span>
+                        <div style="margin: 15px 0;">
+                            <span class="rating">⭐ <%= doc.rating %></span> <span style="color: #94a3b8;">•</span>
+                            <%= doc.experience %>+ Years Exp
+                        </div>
+                        <p style="color: #64748b; font-size: 0.95em; margin-bottom: 20px;">
+                            <%= doc.bio %>
+                        </p>
+                        <div style="margin-bottom: 20px; font-weight: 700; font-size: 1.1em; color: var(--text-dark);">
+                            Fees: $<%= doc.fees %>
+                        </div>
+                        <button class="btn outline" style="width: 100%;"
+                            onclick="openBooking('<%= doc.id %>', '<%= doc.name %>')">Book Appointment</button>
+                    </div>
+                    <% }) %>
+            </div>
+        </div>
+
+        <!-- Booking Modal -->
+        <div id="bookingModal" class="modal">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeModal()">×</button>
+                <h3>Book with <span id="modalDocName"></span></h3>
+                <form id="bookingForm" onsubmit="bookAppointment(event)">
+                    <input type="hidden" id="doctorId" name="doctorId">
+
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="date" name="date" required
+                            min="<%= new Date().toISOString().split('T')[0] %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Time</label>
+                        <select id="time" name="time" required>
+                            <option value="09:00">09:00 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="14:00">02:00 PM</option>
+                            <option value="15:00">03:00 PM</option>
+                            <option value="16:00">04:00 PM</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select name="type" id="type">
+                            <option value="in-person">🏥 In-Person Visit</option>
+                            <option value="video">📹 Video Consultation</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea id="notes" name="notes" placeholder="Reason for visit..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn" style="width: 100%;">Confirm Booking</button>
+                </form>
+            </div>
+        </div>
+
+        <footer>
+            <div class="container footer-content">
+                <div>
+                    <h3>Smart Health Connect</h3>
+                    <p>Making healthcare accessible, affordable, and efficient for everyone.</p>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <a href="/doctors">Doctors</a><br>
+                    <a href="/pharmacy">Pharmacy</a><br>
+                    <a href="/dashboard">Dashboard</a>
+                </div>
+                <div>
+                    <h4>Contact</h4>
+                    <p>support@smarthealth.com</p>
+                    <p>+91 1800-HEALTH</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2026 Smart Health Connect. All rights reserved.</p>
+            </div>
+        </footer>
+
+        <script>
+            const modal = document.getElementById('bookingModal');
+
+            function openBooking(id, name) {
+                document.getElementById('doctorId').value = id;
+                document.getElementById('modalDocName').textContent = name;
+                // Add 'show' class to trigger animation/display
+                modal.classList.add('show');
+            }
+
+            function closeModal() {
+                modal.classList.remove('show');
+            }
+
+            async function bookAppointment(e) {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const data = Object.fromEntries(formData);
+
+                try {
+                    const res = await fetch('/api/appointments/book', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    const result = await res.json();
+
+                    if (result.success) {
+                        closeModal();
+                        alert('✅ Appointment Confirmed!\n\nYour appointment has been successfully booked. Check your dashboard for details.');
+                        window.location.href = '/dashboard';
+                    } else {
+                        alert('❌ Error: ' + (result.error || 'Failed to book appointment'));
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert('❌ Something went wrong. Please try again.');
+                }
+            }
+
+            // Close modal when clicking outside
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    closeModal();
+                }
+            }
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy - Smart Health</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .med-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .med-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .med-img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 1.2em;
+            color: #2575fc;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('partials/header', { user: user }) %>
+
+        <div class="container" style="padding: 20px;">
+            <h2>💊 Online Pharmacy</h2>
+
+            <div class="filter-row" style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <input type="text" id="search" placeholder="Search medicines..."
+                    style="flex: 2; padding: 12px; border-radius: 8px; border: 1px solid #ddd;"
+                    value="<%= typeof query !== 'undefined' ? query : '' %>">
+
+                <select id="category"
+                    style="flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #ddd; min-width: 150px;">
+                    <option value="">All Categories</option>
+                    <option value="Pain Relief">Pain Relief</option>
+                    <option value="Antibiotics">Antibiotics</option>
+                    <option value="Supplements">Supplements</option>
+                    <option value="Cold & Flu">Cold & Flu</option>
+                    <option value="Heart Health">Heart Health</option>
+                    <option value="Diabetes">Diabetes</option>
+                    <option value="Allergies">Allergies</option>
+                </select>
+
+                <button class="btn" style="padding: 0 25px;" onclick="searchMeds()">Search</button>
+                <button class="btn alt" onclick="window.location.href='/api/orders/cart'">View Cart 🛒</button>
+            </div>
+
+            <div class="med-grid">
+                <% medicines.forEach(med=> { %>
+                    <div class="med-card">
+                        <img src="<%= med.image %>" alt="<%= med.name %>" class="med-img">
+                        <div>
+                            <h3>
+                                <%= med.name %>
+                            </h3>
+                            <p style="color: #666; font-size: 0.9em;">
+                                <%= med.description %>
+                            </p>
+                            <div class="price">$<%= med.price.toFixed(2) %>
+                            </div>
+                            <% if (med.requiresPrescription) { %>
+                                <span
+                                    style="background: #ffebee; color: #c62828; padding: 3px 8px; border-radius: 10px; font-size: 0.8em;">Rx
+                                    Required</span>
+                                <% } %>
+                        </div>
+                        <button class="btn" style="margin-top: 10px; width: 100%;"
+                            onclick="addToCart('<%= med.id %>', '<%= med.name.replace(/'/g, " \\'") %>', <%= med.price
+                                %>)">Add to Cart</button>
+                    </div>
+                    <% }) %>
+            </div>
+        </div>
+
+        <script>
+            // Pre-select category if present
+            const urlParams = new URLSearchParams(window.location.search);
+            const currentCat = urlParams.get('category');
+            if (currentCat) document.getElementById('category').value = currentCat;
+
+            function searchMeds() {
+                const query = document.getElementById('search').value;
+                const category = document.getElementById('category').value;
+
+                let url = '?';
+                if (query) url += `query=${encodeURIComponent(query)}&`;
+                if (category) url += `category=${encodeURIComponent(category)}`;
+                window.location.href = url;
+            }
+
+            function addToCart(id, name, price) {
+                let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const existing = cart.find(item => item.id == id);
+
+                if (existing) {
+                    existing.quantity += 1;
+                    alert(`✅ Updated!\n\n${name} quantity increased to ${existing.quantity}`);
+                } else {
+                    cart.push({ id, name, price, quantity: 1 });
+                    alert(`✅ Added to Cart!\n\n${name} has been added to your cart.`);
+                }
+
+                localStorage.setItem('cart', JSON.stringify(cart));
+            }
+        </script>
+</body>
+
+</html>

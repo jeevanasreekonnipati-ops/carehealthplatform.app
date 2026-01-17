@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { nearbyHospitals, geocodeAddress } = require('../services/google');
 
+const { Hospital } = require('../models');
+const { Op } = require('sequelize');
+
 router.get('/nearby', async (req, res) => {
   try {
     const { lat, lng, radius } = req.query;
@@ -9,6 +12,35 @@ router.get('/nearby', async (req, res) => {
     res.json({ results: data.results });
   } catch (e) {
     res.status(500).json({ error: 'Failed to fetch nearby hospitals' });
+  }
+});
+
+// Local search endpoint
+router.get('/search', async (req, res) => {
+  try {
+    const { query, city, specialty } = req.query;
+    const where = {};
+
+    if (query) {
+      where[Op.or] = [
+        { name: { [Op.like]: `%${query}%` } },
+        { services: { [Op.like]: `%${query}%` } }
+      ];
+    }
+
+    if (city) {
+      where.city = city;
+    }
+
+    if (specialty) {
+      where.services = { [Op.like]: `%${specialty}%` };
+    }
+
+    const hospitals = await Hospital.findAll({ where });
+    res.json(hospitals);
+  } catch (error) {
+    console.error('Search error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
