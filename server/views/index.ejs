@@ -19,9 +19,10 @@
     <main>
       <section class="hero-section">
         <div class="hero-content">
-          <h1 class="animate-up">Your Health, <br><span class="highlight">Reimagined.</span></h1>
-          <p class="animate-up delay-1">Experience the future of healthcare. Book appointments, order medicines, and
-            track your history - all in one seamless platform.</p>
+          <h1 class="animate-up" data-i18n="hero.title_main">Your Health, <br><span class="highlight">Reimagined.</span>
+          </h1>
+          <p class="animate-up delay-1" data-i18n="hero.subtitle_main">Experience the future of healthcare. Book
+            appointments, order medicines, and track your history - all in one seamless platform.</p>
           <div class="hero-buttons animate-up delay-2">
             <% if (!user) { %>
               <button class="btn large" onclick="window.location='/login'">Get Started</button>
@@ -82,9 +83,9 @@
             <p>Your medical records are encrypted and safe with us. HIPAA compliant.</p>
           </div>
           <div class="card feature-card">
-            <div class="icon">🗣️</div>
-            <h3>Multi-Language</h3>
-            <p>Accessible in English, Hindi, and Telugu for everyone.</p>
+            <div class="icon">🤖</div>
+            <h3>AI Triage</h3>
+            <p>Get instant medical guidance and symptom triage from our AI assistant.</p>
           </div>
         </div>
       </section>
@@ -175,8 +176,10 @@
       </div>
     </footer>
 
-    <script async
-      src="https://maps.googleapis.com/maps/api/js?key=<%= googleApiKey %>&libraries=places&callback=initMap"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </body>
 
 </html>

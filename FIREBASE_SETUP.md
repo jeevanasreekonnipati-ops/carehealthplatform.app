@@ -1,9 +1,10 @@
-# Firebase Setup & Deployment Instructions
+# Firebase Setup & Deployment Guide
+*Status: Transitioning (App currently runs on SQLite but is architected for Firestore migration)*
 
-Your application code has been refactored to support Firebase!
-- **Database**: Now uses **Firestore** (Cloud Database).
-- **Server**: logic adjusted for **Cloud Functions**.
-- **Chat**: Socket.io removed (needs Client-side Firestore implementation).
+Your application code is being refactored to support Firebase:
+- **Database**: `server/database.js` ready for **Firestore**. (Local routes still use Sequelize/SQLite).
+- **Server**: Exports available for **Cloud Functions**.
+- **Chat**: Socket.io present locally; Firestore listeners recommended for production Cloud Functions.
 
 ## Step 1: Create Firebase Project
 1. Go to [Firebase Console](https://console.firebase.google.com/).

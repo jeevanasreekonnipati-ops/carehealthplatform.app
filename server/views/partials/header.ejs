@@ -8,16 +8,30 @@
         <span class="brand-text">Smart Health</span>
     </a>
     <nav style="display: flex; gap: 20px; align-items: center;">
-        <a href="/">Home</a>
-        <a href="/doctors">Doctors</a>
-        <a href="/pharmacy">Pharmacy</a>
+        <a href="/" data-i18n="nav.home">Home</a>
+        <a href="/doctors" data-i18n="nav.doctors">Doctors</a>
+        <a href="/pharmacy" data-i18n="nav.pharmacy">Pharmacy</a>
         <% if (user) { %>
-            <a href="/dashboard">Dashboard</a>
+            <a href="/dashboard" data-i18n="nav.dashboard">Dashboard</a>
             <form action="/logout" method="GET" style="display:inline; margin: 0;">
-                <button class="linklike">Logout</button>
+                <button class="linklike" data-i18n="nav.logout">Logout</button>
             </form>
             <% } else { %>
-                <a href="/login">Login</a>
+                <a href="/login" data-i18n="nav.login">Login</a>
                 <% } %>
     </nav>
 </header>
+<%- include('ai_assistant') %><%- include('settings_side') %>
+
+        <script>
+            // Highlight active nav link
+            document.addEventListener('DOMContentLoaded', () => {
+                const currentPath = window.location.pathname;
+                const navLinks = document.querySelectorAll('nav a');
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === currentPath) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        </script>

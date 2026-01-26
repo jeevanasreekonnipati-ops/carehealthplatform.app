@@ -9,33 +9,48 @@
     <style>
         .med-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 20px 0;
         }
 
         .med-card {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: var(--bg-dark);
+            border: var(--glass-border);
+            border-radius: 24px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .med-card:hover {
+            transform: translateY(-10px);
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(14, 165, 233, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
         .med-img {
             width: 100%;
-            height: 150px;
+            height: 180px;
             object-fit: contain;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.3));
+            transition: transform 0.4s ease;
+        }
+
+        .med-card:hover .med-img {
+            transform: scale(1.05);
         }
 
         .price {
-            font-size: 1.2em;
-            color: #2575fc;
-            font-weight: bold;
-            margin: 10px 0;
+            font-size: 1.4em;
+            color: var(--primary);
+            font-weight: 800;
+            margin: 15px 0;
         }
     </style>
 </head>
@@ -43,16 +58,18 @@
 <body>
     <%- include('partials/header', { user: user }) %>
 
-        <div class="container" style="padding: 20px;">
-            <h2>💊 Online Pharmacy</h2>
+        <div class="container" style="padding: 60px 5%;">
+            <div class="section-header">
+                <h2>💊 Online Pharmacy</h2>
+                <p>Authentic medicines delivered to your doorstep.</p>
+            </div>
 
-            <div class="filter-row" style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
-                <input type="text" id="search" placeholder="Search medicines..."
-                    style="flex: 2; padding: 12px; border-radius: 8px; border: 1px solid #ddd;"
+            <div class="filter-row"
+                style="margin-bottom: 40px; display: flex; gap: 15px; flex-wrap: wrap; background: var(--bg-dark); padding: 25px; border-radius: 20px; border: var(--glass-border);">
+                <input type="text" id="search" placeholder="Search medicines..." style="flex: 2;"
                     value="<%= typeof query !== 'undefined' ? query : '' %>">
 
-                <select id="category"
-                    style="flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #ddd; min-width: 150px;">
+                <select id="category" style="flex: 1; min-width: 180px;">
                     <option value="">All Categories</option>
                     <option value="Pain Relief">Pain Relief</option>
                     <option value="Antibiotics">Antibiotics</option>
@@ -63,8 +80,8 @@
                     <option value="Allergies">Allergies</option>
                 </select>
 
-                <button class="btn" style="padding: 0 25px;" onclick="searchMeds()">Search</button>
-                <button class="btn alt" onclick="window.location.href='/api/orders/cart'">View Cart 🛒</button>
+                <button class="btn" style="min-width: 120px;" onclick="searchMeds()">Search</button>
+                <button class="btn accent" onclick="window.location.href='/api/orders/cart'">View Cart 🛒</button>
             </div>
 
             <div class="med-grid">
@@ -72,23 +89,22 @@
                     <div class="med-card">
                         <img src="<%= med.image %>" alt="<%= med.name %>" class="med-img">
                         <div>
-                            <h3>
+                            <h3 style="color: var(--text-bright); font-weight: 700; margin-bottom: 8px;">
                                 <%= med.name %>
                             </h3>
-                            <p style="color: #666; font-size: 0.9em;">
+                            <p style="color: var(--text-dim); font-size: 0.9em; line-height: 1.5; margin-bottom: 15px;">
                                 <%= med.description %>
                             </p>
                             <div class="price">$<%= med.price.toFixed(2) %>
                             </div>
                             <% if (med.requiresPrescription) { %>
                                 <span
-                                    style="background: #ffebee; color: #c62828; padding: 3px 8px; border-radius: 10px; font-size: 0.8em;">Rx
+                                    style="background: rgba(244, 63, 94, 0.1); color: var(--danger); padding: 5px 12px; border-radius: 20px; font-size: 0.75em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Rx
                                     Required</span>
                                 <% } %>
                         </div>
-                        <button class="btn" style="margin-top: 10px; width: 100%;"
-                            onclick="addToCart('<%= med.id %>', '<%= med.name.replace(/'/g, " \\'") %>', <%= med.price
-                                %>)">Add to Cart</button>
+                        <button class="btn add-to-cart" style="margin-top: 25px; width: 100%;" data-id="<%= med.id %>"
+                            data-name="<%= med.name %>" data-price="<%= med.price %>">Add to Cart</button>
                     </div>
                     <% }) %>
             </div>
@@ -99,6 +115,16 @@
             const urlParams = new URLSearchParams(window.location.search);
             const currentCat = urlParams.get('category');
             if (currentCat) document.getElementById('category').value = currentCat;
+
+            // Add event listeners to all "Add to Cart" buttons
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', () => {
+                    const id = button.getAttribute('data-id');
+                    const name = button.getAttribute('data-name');
+                    const price = parseFloat(button.getAttribute('data-price'));
+                    addToCart(id, name, price);
+                });
+            });
 
             function searchMeds() {
                 const query = document.getElementById('search').value;

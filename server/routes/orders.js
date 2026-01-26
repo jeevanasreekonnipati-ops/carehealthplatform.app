@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Order, OrderItem, Medicine } = require('../models');
+const { getMedicineById, createOrder, getOrdersByUser } = require('../database');
 const { requireAuth } = require('../middleware/auth');
 
 // Cart View
@@ -12,40 +12,38 @@ router.get('/cart', requireAuth, (req, res) => {
 router.post('/checkout', requireAuth, async (req, res) => {
     try {
         const { items, address, paymentMethod } = req.body;
-        // items = [{ id, quantity }]
 
         if (!items || items.length === 0) {
             return res.status(400).json({ error: 'Cart is empty' });
         }
 
         let totalAmount = 0;
-        const orderItemsData = [];
+        const orderItems = [];
 
         // validate items and calculate total
         for (const item of items) {
-            const medicine = await Medicine.findByPk(item.id);
+            const medicine = await getMedicineById(item.id);
             if (medicine) {
                 totalAmount += medicine.price * item.quantity;
-                orderItemsData.push({
+                orderItems.push({
                     medicineId: medicine.id,
+                    name: medicine.name,
                     quantity: item.quantity,
                     price: medicine.price
                 });
             }
         }
 
-        // Create Order
-        const order = await Order.create({
+        // Create Order in Firestore
+        const order = await createOrder({
             userId: req.user.id,
             totalAmount,
             shippingAddress: address,
-            status: 'paid' // Mocking successful payment
+            paymentMethod: paymentMethod || 'credit_card',
+            status: 'paid', // Mocking successful payment
+            items: orderItems,
+            createdAt: new Date()
         });
-
-        // Create Order Items
-        for (const data of orderItemsData) {
-            await OrderItem.create({ ...data, orderId: order.id });
-        }
 
         res.json({ success: true, orderId: order.id });
     } catch (error) {
@@ -57,19 +55,10 @@ router.post('/checkout', requireAuth, async (req, res) => {
 // Order History
 router.get('/my', requireAuth, async (req, res) => {
     try {
-        const orders = await Order.findAll({
-            where: { userId: req.user.id },
-            include: [
-                {
-                    model: OrderItem,
-                    as: 'items',
-                    include: [{ model: Medicine, as: 'medicine' }]
-                }
-            ],
-            order: [['createdAt', 'DESC']]
-        });
+        const orders = await getOrdersByUser(req.user.id);
         res.json(orders);
     } catch (error) {
+        console.error('Fetch orders error:', error);
         res.status(500).json({ error: 'Failed to fetch orders' });
     }
 });

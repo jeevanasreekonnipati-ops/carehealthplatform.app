@@ -1,7 +1,11 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class Doctor extends Model { }
+    class Doctor extends Model {
+        static associate(models) {
+            Doctor.belongsTo(models.Hospital, { foreignKey: 'hospitalId', as: 'hospital' });
+        }
+    }
 
     Doctor.init({
         id: {
@@ -38,6 +42,14 @@ module.exports = (sequelize, DataTypes) => {
         rating: {
             type: DataTypes.FLOAT,
             defaultValue: 0
+        },
+        hospitalId: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            references: {
+                model: 'Hospitals',
+                key: 'id'
+            }
         }
     }, {
         sequelize,

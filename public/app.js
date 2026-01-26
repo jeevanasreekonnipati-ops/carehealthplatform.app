@@ -19,6 +19,15 @@ async function loadLang(lang) {
       const key = el.getAttribute('data-placeholder-i18n');
       if (dict[key]) el.setAttribute('placeholder', dict[key]);
     });
+
+    // Sync all language selectors
+    document.querySelectorAll('#lang-select, #lang-select-side').forEach(select => {
+      select.value = lang;
+    });
+
+    // Save preference
+    localStorage.setItem(LANG_STORAGE_KEY, lang);
+
   } catch (error) {
     console.error('Error loading language:', error);
   }
@@ -26,17 +35,16 @@ async function loadLang(lang) {
 
 // Initialize language on page load
 function initLang() {
-  const select = document.getElementById('lang-select');
   const stored = localStorage.getItem(LANG_STORAGE_KEY) || 'en';
 
-  if (select) {
+  // Attach event listeners to all lang selects found on the page
+  const selectors = document.querySelectorAll('#lang-select, #lang-select-side');
+  selectors.forEach(select => {
     select.value = stored;
     select.addEventListener('change', (e) => {
-      const lang = e.target.value;
-      localStorage.setItem(LANG_STORAGE_KEY, lang);
-      loadLang(lang);
+      loadLang(e.target.value);
     });
-  }
+  });
 
   loadLang(stored);
 }

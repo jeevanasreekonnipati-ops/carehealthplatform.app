@@ -6,285 +6,451 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - Smart Health Connect</title>
   <link rel="stylesheet" href="/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Inter:wght@400;600&display=swap"
+    rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script defer src="/app.js"></script>
+  <style>
+    :root {
+      --dashboard-bg: #0b0f1a;
+      --stat-card-bg: rgba(30, 41, 59, 0.4);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dashboard-bg);
+      color: #f8fafc;
+    }
+
+    h2,
+    h3,
+    h4 {
+      font-family: 'Outfit', sans-serif;
+      letter-spacing: -0.5px;
+    }
+
+    .dashboard-container {
+      padding: 40px 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .welcome-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .welcome-text h2 {
+      font-size: 2.5rem;
+      margin: 0;
+      background: linear-gradient(to right, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .stat-card {
+      background: var(--stat-card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 25px;
+      border-radius: 24px;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+    }
+
+    .stat-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 5px 0;
+      font-family: 'Outfit';
+    }
+
+    .stat-label {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .main-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+    }
+
+    .panel-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 32px;
+      padding: 30px;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    /* Chart Controls */
+    .chart-tabs {
+      display: flex;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 5px;
+      border-radius: 12px;
+    }
+
+    .chart-tab {
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+    }
+
+    .chart-tab.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Lists Styling */
+    .data-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .data-item {
+      padding: 16px;
+      border-radius: 16px;
+      margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+    }
+
+    .data-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .item-main {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .item-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .item-info h4 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .item-info p {
+      margin: 2px 0 0;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+
+    .status-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 1024px) {
+      .main-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
   <%- include('partials/header', { user: user }) %>
 
-    <div class="container">
-      <section class="box"
-        style="text-align: center; margin-top: 40px; background: white; padding: 40px; border-radius: 20px;">
-        <h2 style="color: var(--primary); font-size: 28px; margin-bottom: 10px;">Welcome back, <%= user.name %>! 👋</h2>
-        <p style="color: #64748b;">Here's your health overview for today.</p>
+    <div class="dashboard-container">
+      <div class="welcome-section">
+        <div class="welcome-text">
+          <h2>Hello, <%= user.name %>
+          </h2>
+          <p style="color: #94a3b8; margin-top: 5px;">Welcome back to your health overview.</p>
+        </div>
+        <div class="actions">
+          <button class="btn accent" onclick="openVitalModal()">Record Vitals +</button>
+        </div>
+      </div>
 
-        <!-- Quick Stats -->
-        <div class="stats-bar"
-          style="margin: 30px 0; background: #f8fafc; padding: 20px; box-shadow: none; border: 1px solid #e2e8f0;">
-          <div class="stat-item">
-            <h3 id="stat-appointments">0</h3>
-            <p>Upcoming Appts</p>
+      <!-- Quick Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(14, 165, 233, 0.1); color: #0ea5e9;">📅</div>
+          <div class="stat-value" id="stat-appointments">0</div>
+          <div class="stat-label">Upcoming Visits</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(244, 63, 94, 0.1); color: #f43f5e;">❤️</div>
+          <div class="stat-value" id="stat-heart">-</div>
+          <div class="stat-label">Resting Heart Rate</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(34, 197, 94, 0.1); color: #22c55e;">📦</div>
+          <div class="stat-value" id="stat-orders">0</div>
+          <div class="stat-label">Recent Orders</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">🏥</div>
+          <div class="stat-value">Good</div>
+          <div class="stat-label">General Health</div>
+        </div>
+      </div>
+
+      <div class="main-layout">
+        <!-- Health Analytics -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <h3>Health Metrics</h3>
+            <div class="chart-tabs">
+              <button class="chart-tab active" onclick="switchChart('heart_rate', this)">Heart Rate</button>
+              <button class="chart-tab" onclick="switchChart('bp_systolic', this)">Blood Pressure</button>
+              <button class="chart-tab" onclick="switchChart('glucose', this)">Glucose</button>
+            </div>
           </div>
-          <div class="stat-item">
-            <h3 id="stat-heart">-</h3>
-            <p>Avg Heart Rate</p>
-          </div>
-          <div class="stat-item">
-            <h3 id="stat-orders">0</h3>
-            <p>Active Orders</p>
+          <div style="height: 350px; position: relative;">
+            <canvas id="healthChart"></canvas>
           </div>
         </div>
-      </section>
 
-      <!-- Grid Layout -->
-      <div class="grid" style="grid-template-columns: 2fr 1fr; margin-top: 30px;">
-
-        <!-- Left Column -->
+        <!-- Appointments & Activity -->
         <div style="display: flex; flex-direction: column; gap: 30px;">
-
-          <!-- Appointments -->
-          <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-              <h3>📅 Upcoming Appointments</h3>
-              <button class="btn outline" style="padding: 8px 16px; font-size: 0.9em;"
-                onclick="window.location='/doctors'">+ Book New</button>
+          <div class="panel-card">
+            <div class="panel-header">
+              <h3>Appointments</h3>
+              <a href="/doctors"
+                style="color: var(--primary); font-size: 0.85rem; text-decoration: none; font-weight: 600;">View All</a>
             </div>
-            <ul id="appointments-list" style="list-style: none; padding: 0;">
-              <li style="color: #94a3b8; font-style: italic; text-align: center; padding: 20px;">Loading appointments...
-              </li>
+            <ul class="data-list" id="appointments-list">
+              <!-- Filled by JS -->
             </ul>
           </div>
 
-          <!-- Recent Activity Feed -->
-          <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-              <h3>🕗 Recent Activity</h3>
+          <div class="panel-card">
+            <div class="panel-header">
+              <h3>Quick Actions</h3>
             </div>
-            <ul id="activity-list" style="list-style: none; padding: 0;">
-              <li style="color: #94a3b8; font-style: italic; text-align: center; padding: 20px;">Loading activity...
-              </li>
-            </ul>
-          </div>
-
-        </div>
-
-        <!-- Right Column -->
-        <div style="display: flex; flex-direction: column; gap: 30px;">
-
-          <!-- Vitals Chart -->
-          <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-              <h3>❤️ Heart Rate</h3>
-              <button class="btn accent" style="padding: 6px 12px; font-size: 0.8em;" onclick="openVitalModal()">+
-                Add</button>
-            </div>
-            <canvas id="vitalsChart" height="200"></canvas>
-          </div>
-
-          <!-- Quick Actions -->
-          <div class="card">
-            <h3>⚡ Quick Actions</h3>
-            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
-              <button class="btn alt" onclick="window.location='/pharmacy'" style="text-align: left;">💊 Order
-                Medicines</button>
-              <button class="btn alt" onclick="window.location='/api/orders/my'" style="text-align: left;">📦 Track
-                Orders</button>
-              <button class="btn alt" onclick="window.location='/doctors'" style="text-align: left;">👨‍⚕️ Find
-                Specialists</button>
+            <div style="display: grid; gap: 12px;">
+              <button class="btn alt"
+                style="justify-content: flex-start; text-align: left; background: rgba(255,255,255,0.03);"
+                onclick="window.location='/pharmacy'">🛒 Order Medicines</button>
+              <button class="btn alt"
+                style="justify-content: flex-start; text-align: left; background: rgba(255,255,255,0.03);"
+                onclick="window.location='/doctors'">🩺 Find a Doctor</button>
             </div>
           </div>
-
         </div>
       </div>
     </div>
 
-    <!-- Add Vitals Modal -->
+    <!-- Modals -->
     <div id="vitalModal" class="modal">
-      <div class="modal-content">
+      <div class="modal-content" style="background: #1e293b; color: white;">
         <button class="close-btn" onclick="document.getElementById('vitalModal').classList.remove('show')">×</button>
-        <h3>Record Vital Sign</h3>
-        <form onsubmit="addVital(event)">
+        <h3 style="color: white; margin-bottom: 25px;">Track Reading</h3>
+        <form id="addVitalForm" onsubmit="handleAddVital(event)">
           <div class="form-group">
-            <label>Type</label>
-            <select name="type" id="vitalType">
+            <label style="color: #94a3b8;">Metric Type</label>
+            <select name="type" required
+              style="background: #0f172a; border-color: rgba(255,255,255,0.1); color: white;">
               <option value="heart_rate">Heart Rate (bpm)</option>
-              <option value="bp_systolic">BP Systolic (mmHg)</option>
-              <option value="weight">Weight (kg)</option>
+              <option value="bp_systolic">Blood Pressure Systolic (mmHg)</option>
               <option value="glucose">Glucose (mg/dL)</option>
+              <option value="weight">Weight (kg)</option>
             </select>
           </div>
           <div class="form-group">
-            <label>Value</label>
-            <input type="number" name="value" required step="0.1">
+            <label style="color: #94a3b8;">Value</label>
+            <input type="number" name="value" step="0.1" required
+              style="background: #0f172a; border-color: rgba(255,255,255,0.1); color: white;">
           </div>
-          <button class="btn" type="submit" style="width: 100%;">Save Reading</button>
+          <button class="btn" type="submit" style="width: 100%; margin-top: 10px;">Save Data</button>
         </form>
       </div>
     </div>
 
     <script>
-      // Fetch Data on Load
-      document.addEventListener('DOMContentLoaded', () => {
-        loadAppointments();
-        loadVitals();
-        loadActivity();
+      let healthChart = null;
+      let allVitals = [];
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        await fetchDashboardData();
       });
 
-      async function loadAppointments() {
+      async function fetchDashboardData() {
         try {
-          const res = await fetch('/api/appointments/my');
-          const apps = await res.json();
-          const list = document.getElementById('appointments-list');
-          const countEl = document.getElementById('stat-appointments');
+          // Fetch Appointments
+          const apptsRes = await fetch('/api/appointments/my');
+          const appts = await apptsRes.json();
+          renderAppointments(appts);
+          document.getElementById('stat-appointments').textContent = appts.filter(a => a.status !== 'cancelled').length;
 
-          list.innerHTML = '';
-          countEl.textContent = apps.filter(a => a.status !== 'cancelled').length;
+          // Fetch Vitals
+          const vitalsRes = await fetch('/api/vitals');
+          allVitals = await vitalsRes.json();
+          renderVitalsChart('heart_rate');
+          updateVitalStats();
 
-          if (apps.length === 0) {
-            list.innerHTML = '<li style="color:#94a3b8; text-align:center; padding:20px;">No upcoming appointments.</li>';
-            return;
-          }
+          // Fetch Orders
+          const ordersRes = await fetch('/api/orders/my');
+          const orders = await ordersRes.json();
+          document.getElementById('stat-orders').textContent = orders.length;
 
-          apps.forEach(app => {
-            const appointmentDate = new Date(app.date);
-            const date = appointmentDate.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
-            const time = appointmentDate.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
-            const statusColors = { confirmed: '#22c55e', pending: '#f59e0b', cancelled: '#ef4444' };
-            const statusColor = statusColors[app.status] || '#64748b';
-
-            const li = document.createElement('li');
-            li.style.cssText = 'padding: 15px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;';
-            li.innerHTML = `
-            <div>
-              <div style="font-weight: 600; font-size: 1.05em;">${app.doctor ? app.doctor.name : 'Doctor Visit'}</div>
-              <div style="color: #64748b; font-size: 0.9em;">${date} • ${time} (${app.type})</div>
-            </div>
-            <div style="text-align: right;">
-              <span style="color: ${statusColor}; font-weight: 600; font-size: 0.8em; text-transform: uppercase;">${app.status}</span>
-              ${app.status !== 'cancelled' ? `<br><button style="background:none; border:none; color:#ef4444; font-size:0.8em; cursor:pointer; text-decoration:underline; margin-top:5px;" onclick="cancelAppt(${app.id})">Cancel</button>` : ''}
-            </div>
-          `;
-            list.appendChild(li);
-          });
-        } catch (e) { console.error(e); }
+        } catch (err) {
+          console.error('Failed to load dashboard data:', err);
+        }
       }
 
-      async function loadVitals() {
-        try {
-          const res = await fetch('/api/vitals');
-          const vitals = await res.json();
+      function renderAppointments(appts) {
+        const list = document.getElementById('appointments-list');
+        list.innerHTML = '';
 
-          // Calculate Average Heart Rate
-          const heartRates = vitals.filter(v => v.type === 'heart_rate');
-          if (heartRates.length > 0) {
-            const avg = heartRates.reduce((acc, curr) => acc + parseFloat(curr.value), 0) / heartRates.length;
-            document.getElementById('stat-heart').textContent = Math.round(avg) + ' bpm';
-          }
+        if (appts.length === 0) {
+          list.innerHTML = '<li style="text-align: center; color: #64748b; padding: 20px;">No appointments found.</li>';
+          return;
+        }
 
-          const labels = heartRates.map(v => new Date(v.recordedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }));
-          const data = heartRates.map(v => v.value);
+        appts.slice(0, 3).forEach(app => {
+          const date = new Date(app.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+          const li = document.createElement('li');
+          li.className = 'data-item';
+          li.innerHTML = `
+                    <div class="item-main">
+                        <div class="item-icon">🩺</div>
+                        <div class="item-info">
+                            <h4>${app.doctor ? app.doctor.name : 'Doctor Visit'}</h4>
+                            <p>${date} • ${app.time || '10:00 AM'}</p>
+                        </div>
+                    </div>
+                    <span class="status-badge" style="background: rgba(34, 197, 94, 0.1); color: #22c55e;">${app.status}</span>
+                `;
+          list.appendChild(li);
+        });
+      }
 
-          const ctx = document.getElementById('vitalsChart').getContext('2d');
-          new Chart(ctx, {
-            type: 'line',
-            data: {
-              labels: labels,
-              datasets: [{
-                label: 'Heart Rate',
-                data: data,
-                borderColor: '#6a11cb',
-                backgroundColor: 'rgba(106, 17, 203, 0.1)',
-                fill: true,
-                tension: 0.4,
-                pointRadius: 4
-              }]
+      function updateVitalStats() {
+        const hr = allVitals.filter(v => v.type === 'heart_rate');
+        if (hr.length > 0) {
+          const latest = hr[hr.length - 1].value;
+          document.getElementById('stat-heart').textContent = `${Math.round(latest)} bpm`;
+        }
+      }
+
+      function renderVitalsChart(type) {
+        const filtered = allVitals
+          .filter(v => v.type === type)
+          .sort((a, b) => new Date(a.recordedAt) - new Date(b.recordedAt));
+
+        const labels = filtered.map(v => new Date(v.recordedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }));
+        const data = filtered.map(v => v.value);
+
+        const ctx = document.getElementById('healthChart').getContext('2d');
+
+        if (healthChart) healthChart.destroy();
+
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(14, 165, 233, 0.2)');
+        gradient.addColorStop(1, 'rgba(14, 165, 233, 0)');
+
+        healthChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: type.replace('_', ' ').toUpperCase(),
+              data: data,
+              borderColor: '#0ea5e9',
+              borderWidth: 3,
+              pointRadius: 5,
+              pointBackgroundColor: '#fff',
+              backgroundColor: gradient,
+              fill: true,
+              tension: 0.4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false }
             },
-            options: {
-              responsive: true,
-              plugins: { legend: { display: false } },
-              scales: { y: { beginAtZero: false } }
+            scales: {
+              y: {
+                grid: { color: 'rgba(255,255,255,0.05)' },
+                ticks: { color: '#64748b' }
+              },
+              x: {
+                grid: { display: false },
+                ticks: { color: '#64748b' }
+              }
             }
-          });
-        } catch (e) { console.error(e); }
-      }
-
-      async function loadActivity() {
-        try {
-          // Fetch both orders and appointments
-          const resOrder = await fetch('/api/orders/my');
-          const orders = await resOrder.json();
-
-          const resAppt = await fetch('/api/appointments/my');
-          const appointments = await resAppt.json();
-
-          const countEl = document.getElementById('stat-orders');
-          countEl.textContent = orders.filter(o => o.status === 'pending' || o.status === 'paid').length;
-
-          const activityList = document.getElementById('activity-list');
-          activityList.innerHTML = '';
-
-          const activities = [];
-
-          // Add orders to activity
-          orders.forEach(o => {
-            activities.push({
-              type: 'order',
-              date: new Date(o.createdAt),
-              title: `Order #${o.id}`,
-              desc: `${o.status.toUpperCase()} - $${o.totalAmount}`
-            });
-          });
-
-          // Add appointments to activity
-          appointments.forEach(app => {
-            const dateStr = new Date(app.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-            activities.push({
-              type: 'appointment',
-              date: new Date(app.createdAt || app.date),
-              title: `Appointment with ${app.doctor ? app.doctor.name : 'Doctor'}`,
-              desc: `${app.status.toUpperCase()} - ${dateStr} (${app.type})`
-            });
-          });
-
-          // Sort by newest first
-          activities.sort((a, b) => b.date - a.date);
-
-          if (activities.length === 0) {
-            activityList.innerHTML = '<li style="color:#94a3b8; text-align:center; padding:20px;">No recent activity.</li>';
-            return;
           }
-
-          activities.slice(0, 5).forEach(act => {
-            const li = document.createElement('li');
-            li.style.cssText = 'padding: 15px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 15px;';
-            li.innerHTML = `
-              <div style="background: #eef2ff; padding: 10px; border-radius: 50%; font-size: 1.2em;">${act.type === 'order' ? '📦' : '📅'}</div>
-              <div>
-                <div style="font-weight: 600; color: var(--text-dark);">${act.title}</div>
-                <div style="color: #64748b; font-size: 0.9em;">${act.desc} • ${act.date.toLocaleDateString()}</div>
-              </div>
-            `;
-            activityList.appendChild(li);
-          });
-
-        } catch (e) { console.error(e); }
+        });
       }
 
-      async function cancelAppt(id) {
-        if (!confirm('Are you sure you want to cancel this appointment?')) return;
-        try {
-          await fetch(`/api/appointments/${id}/cancel`, { method: 'POST' });
-          loadAppointments();
-        } catch (e) { alert('Error cancelling appointment'); }
+      function switchChart(type, btn) {
+        document.querySelectorAll('.chart-tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderVitalsChart(type);
       }
 
       function openVitalModal() {
         document.getElementById('vitalModal').classList.add('show');
       }
 
-      async function addVital(e) {
+      async function handleAddVital(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData);
@@ -296,18 +462,13 @@
             body: JSON.stringify(data)
           });
 
-          const result = await res.json();
-
-          if (result.success) {
-            document.getElementById('vitalModal').classList.remove('show');
-            e.target.reset();
-            // Reload page to refresh chart
-            window.location.reload();
+          if (res.ok) {
+            location.reload();
           } else {
-            alert('Error saving vital');
+            alert('Failed to save reading.');
           }
-        } catch (e) {
-          alert('Error saving vital');
+        } catch (err) {
+          alert('An error occurred.');
         }
       }
     </script>

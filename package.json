@@ -26,6 +26,7 @@
       "firebase-admin": "^13.6.0",
       "helmet": "^8.1.0",
       "node-fetch": "^3.3.2",
+      "openai": "^6.16.0",
       "passport": "^0.7.0",
       "passport-google-oauth20": "^2.0.0",
       "sequelize": "^6.37.7",
@@ -33,6 +34,10 @@
       "sqlite3": "^5.1.6"
    },
    "devDependencies": {
+      "nodemon": "^3.1.11",
       "sequelize-cli": "^6.6.5"
+   },
+   "engines": {
+      "node": ">=18.0.0"
    }
 }

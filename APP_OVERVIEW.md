@@ -3,272 +3,98 @@
 ## 🏥 Application Features
 
 ### **Home Page** (`/`)
-- Professional healthcare logo at top
-- Large animated hero logo with floating effect
-- Call-to-action button "Get Started"
-- 6 feature cards showcasing services:
-  1. Find Hospitals
-  2. Book Doctors
-  3. Track Health
-  4. Medicine Orders
-  5. Multi-Language Support
-  6. Security & Safety
-- Interactive maps section for hospital search
-- Voice command support
-- Multi-language support (EN, HI, TE)
+- **Premium Dark UI**: Glassmorphism aesthetic with vibrant cyan/indigo accents
+- **Interactive Maps**: Real-time Google Maps integration showing Tirupati hospitals
+- **AI FAB**: Floating Action Button for instant access to the SmartHealth AI Assistant
+- **6 Feature Cards**:
+  1. Find Hospitals (Live Tirupati Data)
+  2. Book Doctors (Specialist Directory)
+  3. Track Health (Live Vitals Dashboard)
+  4. Medicine Orders (90+ Item Pharmacy)
+  5. Multi-Language Support (EN, HI, TE)
+  6. AI Triage (Automated Symptom Checker)
+- **Voice Commands**: Integrated Web Speech API for hands-free navigation
 
-### **Login Page** (`/login`)
-- Centered logo
-- Clean login form
-- Email and password inputs
-- Demo credentials display
-- Error messages with styling
-- Language selector
+### **SmartHealth AI Assistant**
+- **Medical Triage**: Automated symptom checking using OpenAI GPT models
+- **Smart Demo Mode**: Built-in fallback responses for common symptoms if no API key is set
+- **Concise Advice**: Empathetic, disclaimer-aware triage guidance
+- **Emergency Detection**: Instant emergency service redirection for critical symptoms
 
-### **Dashboard** (`/dashboard`)
-- Personalized welcome message
-- Health overview with statistics:
-  - Appointments counter
-  - Prescriptions counter
-  - Health score percentage
-- Quick action cards:
-  - 📅 Appointments
-  - 💊 Prescriptions
-  - ❤️ Health Vitals
-- User navigation
-- Logout functionality
+### **Tirupati Health Directory**
+- **Hospitals**: Real data for SVIMS, Apollo, and Amara Hospitals
+- **Doctors**: Profiles for specialists like Dr. S. Anwar Basha (Surgery) and Dr. Harshita Reddy (Medicine)
+- **Live Search**: Specialty and name-based filtering
+
+### **Health Dashboard** (`/dashboard`)
+- **Live Vitals**: Real-time graph/display of health metrics (Heart Rate, Score)
+- **Personalized Greeting**: Dynamic user welcome message
+- **Quick Actions**: One-click access to Appointments, Prescriptions, and Vitals
 
 ---
 
 ## 🎨 Design Elements
 
-### Logo Details
-The SVG logo combines:
-- **Medical Cross** - Healthcare symbol
-- **Heartbeat Line** - Health vitality
-- **Pills/Capsules** - Pharmacy element
-- **Gradient Colors** - Modern visual appeal
-- **Circle Background** - Professional finish
+### Brand Identity
+- **Logo**: Custom SVG combining a medical cross, heartbeat line, and modern gradients
+- **Typography**: 'Inter' & 'Outfit' for a high-end, professional medical feel
 
-### Color Scheme
+### Color Palette (Premium Dark)
 ```
-Primary:    #6a11cb (Purple) - Trust & Authority
-Secondary:  #2575fc (Blue)   - Calm & Care
-Accent:     #ff6f61 (Red)    - Energy & Life
-Background: Gradient 667eea → 764ba2
-Light BG:   rgba(255,255,255,0.95)
+Primary:    #0ea5e9 (Vibrant Cyan)
+Secondary:  #6366f1 (Indigo)
+Background: #0f172a (Deep Obsidian)
+Glass:      rgba(15, 23, 42, 0.7)
+Text:       #f8fafc (Bright) / #94a3b8 (Dim)
 ```
 
-### Typography
-- Font: 'Segoe UI', system-ui, sans-serif
-- Headers: Bold, larger sizes
-- Body: Regular, readable sizes
-- Code: Monospace in demo credentials
-
 ---
 
-## 🔒 Security Features
+## 🔒 Security & Architecture
 
-1. **Password Hashing** - bcryptjs encryption
-2. **Session Management** - 24-hour expiry
-3. **Input Validation** - Email & password checks
-4. **Security Headers** - XSS, clickjacking protection
-5. **HTTPS Ready** - Secure cookie flags
-6. **SQLite Database** - Local data persistence
-
----
-
-## 🌐 Internationalization
-
-### Supported Languages
-- **English** - Full support
-- **Hindi (हिंदी)** - Full support
-- **Telugu (తెలుగు)** - Full support
-
-### Language Features
-- Dynamic text translation
-- Placeholder translation
-- Client-side language switching
-- LocalStorage persistence
-
----
-
-## 📊 Dashboard Statistics
-
-Current demo display:
-- **12** Appointments scheduled
-- **5** Active prescriptions
-- **98%** Health score
-
-(These are placeholder values, can be connected to real database)
+1. **Authentication**: Passport.js with Google OAuth 2.0 & Local Bcrypt strategies
+2. **Session Security**: Express-session with secure HTTP-only cookies
+3. **Data Integrity**: Sequelize ORM with SQLite (transitioning to Firestore)
+4. **Resiliency**: Automated database seeding of real Tirupati data on startup
+5. **Rate Limiting**: Protection against brute-force and API abuse
 
 ---
 
 ## 🔧 Technical Stack
 
-### Backend
-- Node.js & Express
-- SQLite3 Database
-- EJS Templating
-- bcryptjs for passwords
-- express-session for auth
+### Core
+- **Node.js & Express**: Backend engine
+- **Sequelize & SQLite**: Current database (Flexible for migration)
+- **OpenAI Node SDK**: AI capability
+- **Socket.io**: Real-time foundations
 
-### Frontend
-- Vanilla JavaScript
-- CSS3 with gradients & animations
-- SVG logos
-- Google Maps API ready
-- Web Speech API ready
-
-### Infrastructure
-- Environment variables (.env)
-- Configuration management
-- Middleware stack
-- Error handling
+### Frontend Excellence
+- **Vanilla JS**: No heavy frameworks, lightning-fast performance
+- **Glassmorphism CSS**: Modern blurred backgrounds and subtle borders
+- **Google Maps API**: Geographic intelligence
+- **i18next-style Translation**: EN, HI, TE support
 
 ---
 
-## 📱 Responsive Design
+## 🎯 Current Status & Improvements
 
-### Mobile-First Approach
-- **Mobile:** Single column layouts
-- **Tablet:** 2-column grids
-- **Desktop:** 3-column grids
-
-### Breakpoints
-- Small: < 768px
-- Medium: 768px - 1024px
-- Large: > 1024px
+✅ **Real Tirupati Data**: Switched from placeholders to real medical facilities  
+✅ **AI Triage Integration**: Functional medical assistant with demo fallback  
+✅ **Premium Dark Mode**: Complete visual overhaul for high-end aesthetics  
+✅ **Google Login**: Working OAuth 2.0 flow  
+✅ **Pharmacy Expansion**: 90+ coded medicines across diverse categories  
 
 ---
 
-## 🎯 Key Improvements Made
+## 🔮 Roadmap
 
-✅ Professional healthcare logo  
-✅ Modern color scheme  
-✅ Animated hero section  
-✅ Feature showcase cards  
-✅ Health statistics dashboard  
-✅ Responsive design  
-✅ Security implementations  
-✅ Multi-language support  
-✅ Error handling  
-✅ Professional styling  
+1. **Firestore Completion**: Move all SQLite models to Firebase Cloud Firestore
+2. **Push Notifications**: Real-time alerts for appointment reminders
+3. **Doctor Portal**: Dedicated dashboard for medical professionals to manage queues
+4. **Prescription OCR**: Upload photos of prescriptions for automated cart addition
 
 ---
 
-## 🚀 Running the App
-
-```bash
-# Start the server
-npm start
-
-# Or use dev mode with auto-reload
-npm run dev
-
-# Access at
-http://localhost:3000
-```
-
-### Demo Credentials
-- **Email:** user@example.com
-- **Password:** 1234
-
----
-
-## 📂 Project Structure
-
-```
-healthapp/
-├── .env                        Configuration
-├── server/
-│   ├── server.js              Main server
-│   ├── config.js              Configuration
-│   ├── database.js            SQLite setup
-│   ├── middleware/
-│   │   ├── auth.js            Auth middleware
-│   │   └── validation.js      Validation
-│   ├── routes/
-│   │   └── auth.js            Auth routes
-│   └── views/
-│       ├── index.ejs          Home page
-│       ├── login.ejs          Login page
-│       ├── dashboard.ejs      Dashboard
-│       └── 404.ejs            Error page
-├── public/
-│   ├── logo.svg               Healthcare logo
-│   ├── style.css              Styling
-│   ├── app.js                 Frontend logic
-│   └── i18n/
-│       ├── en.json            English
-│       ├── hi.json            Hindi
-│       └── te.json            Telugu
-└── database.db                SQLite database
-
-```
-
----
-
-## 🎭 User Flows
-
-### Authentication Flow
-1. User visits home page
-2. Clicks "Get Started"
-3. Redirected to login
-4. Enters credentials
-5. Session created
-6. Redirected to dashboard
-7. Can logout to return home
-
-### Dashboard Flow
-1. User logged in sees personalized greeting
-2. Browses health overview stats
-3. Clicks action cards to view details
-4. Can change language anytime
-5. Logout returns to home
-
----
-
-## 🔮 Future Enhancements
-
-### Planned Features
-1. **Real Database:** Replace SQLite with PostgreSQL/MongoDB
-2. **API Endpoints:** RESTful API for mobile apps
-3. **Real Maps:** Integrate actual hospital location data
-4. **Appointments:** Booking system with doctors
-5. **Prescriptions:** Digital prescription management
-6. **Health Records:** Medical history tracking
-7. **Notifications:** Push notifications for appointments
-8. **Payments:** Online payment gateway
-9. **Analytics:** User health analytics
-10. **Mobile App:** React Native version
-
----
-
-## 📞 Support & Maintenance
-
-### Current Status
-- **Version:** 1.0.0
-- **Date:** January 11, 2026
-- **Status:** Production Ready
-- **Last Updated:** Today
-
-### Performance Metrics
-- **Load Time:** < 2 seconds
-- **Lighthouse Score:** 85+ (potential)
-- **Mobile Friendly:** Yes
-- **Accessibility:** Good (WCAG 2.1)
-
----
-
-## 📚 Documentation
-
-- `IMPROVEMENTS.md` - Backend improvements
-- `DESIGN_IMPROVEMENTS.md` - Visual design details
-- `README.md` - Project overview (if exists)
-
----
-
-**Smart Health Connect** is now a modern, professional healthcare platform with beautiful design and solid backend architecture! 🎉
-
-Visit: **http://localhost:3000**
+**Version:** 1.2.0  
+**Updated:** January 20, 2026  
+**Status:** Feature Rich & Cloud Ready

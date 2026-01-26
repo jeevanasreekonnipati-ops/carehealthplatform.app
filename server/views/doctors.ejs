@@ -9,17 +9,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         .doctor-img {
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 20px;
-            border: 4px solid #e2e8f0;
-            transition: border-color 0.3s;
+            margin-bottom: 25px;
+            border: 4px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
         }
 
         .card:hover .doctor-img {
             border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.2);
         }
 
         .rating {
@@ -52,6 +54,7 @@
                     <option value="Orthopedics">Orthopedics</option>
                     <option value="General Medicine">General Medicine</option>
                     <option value="Dermatology">Dermatology</option>
+                    <option value="General Surgery">General Surgery</option>
                     <option value="Gynecology">Gynecology</option>
                     <option value="Psychiatry">Psychiatry</option>
                 </select>
@@ -78,25 +81,31 @@
 
             <div class="grid">
                 <% doctors.forEach(doc=> { %>
-                    <div class="card" style="text-align: center;">
+                    <div class="card"
+                        style="text-align: center; background: var(--bg-dark); border: var(--glass-border);">
                         <img src="<%= doc.image %>" alt="<%= doc.name %>" class="doctor-img">
-                        <h3 style="margin-bottom: 5px;">
+                        <h3 style="margin-bottom: 8px; color: var(--text-bright); font-weight: 700;">
                             <%= doc.name %>
                         </h3>
-                        <span class="badge">
+                        <span class="badge"
+                            style="background: rgba(14, 165, 233, 0.1); color: var(--primary); padding: 5px 12px; border-radius: 20px; font-weight: 600; font-size: 0.85em;">
                             <%= doc.specialization %>
                         </span>
-                        <div style="margin: 15px 0;">
-                            <span class="rating">⭐ <%= doc.rating %></span> <span style="color: #94a3b8;">•</span>
-                            <%= doc.experience %>+ Years Exp
+                        <div style="margin: 20px 0;">
+                            <span class="rating">⭐ <%= doc.rating %></span> <span
+                                style="color: rgba(255,255,255,0.1);">•</span>
+                            <span style="color: var(--text-dim);">
+                                <%= doc.experience %>+ Years Exp
+                            </span>
                         </div>
-                        <p style="color: #64748b; font-size: 0.95em; margin-bottom: 20px;">
+                        <p style="color: var(--text-dim); font-size: 0.95em; margin-bottom: 25px; line-height: 1.6;">
                             <%= doc.bio %>
                         </p>
-                        <div style="margin-bottom: 20px; font-weight: 700; font-size: 1.1em; color: var(--text-dark);">
+                        <div
+                            style="margin-bottom: 25px; font-weight: 800; font-size: 1.2em; color: var(--text-bright);">
                             Fees: $<%= doc.fees %>
                         </div>
-                        <button class="btn outline" style="width: 100%;"
+                        <button class="btn" style="width: 100%;"
                             onclick="openBooking('<%= doc.id %>', '<%= doc.name %>')">Book Appointment</button>
                     </div>
                     <% }) %>

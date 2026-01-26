@@ -1,0 +1,205 @@
+<!-- AI Assistant Partial -->
+<div id="ai-assistant-container">
+    <button id="ai-fab" onclick="toggleAIChat()">
+        🤖
+    </button>
+
+    <div id="ai-chat-window">
+        <div
+            style="background: var(--primary); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.2em;">🤖</span>
+                <h4 style="margin: 0; font-weight: 600;">Smart Health AI</h4>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <button id="tts-toggle" onclick="toggleTTS()" class="voice-btn" title="Toggle Voice Response">
+                    🔊
+                </button>
+                <button onclick="toggleAIChat()"
+                    style="background: none; border: none; color: white; font-size: 20px; cursor: pointer; opacity: 0.8;">×</button>
+            </div>
+        </div>
+        <div id="ai-messages"
+            style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; background: var(--bg-deep);">
+            <div class="ai-message bot" data-i18n="ai.welcome">
+                Hello! I'm Smart Health AI. I can help with symptom triage and basic health questions. How are you
+                feeling today?
+            </div>
+        </div>
+        <div
+            style="padding: 15px; border-top: 1px solid rgba(255,255,255,0.05); background: var(--bg-dark); display: flex; gap: 10px; align-items: center;">
+            <button id="mic-btn" onclick="toggleMic()" class="voice-btn" title="Speak to AI"
+                style="color: var(--text-dim);">
+                🎤
+            </button>
+            <input type="text" id="ai-input" placeholder="How are you feeling?" onkeypress="handleAIEnter(event)"
+                style="flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; outline: none;">
+            <button onclick="sendAIMessage()" class="btn"
+                style="padding: 0; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; min-width: 44px;">
+                ➤
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let isTTSActive = false;
+    let recognition = null;
+    let isListening = false;
+
+    // Initialize Speech Recognition
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            document.getElementById('ai-input').value = transcript;
+            sendAIMessage();
+            stopListening();
+        };
+
+        recognition.onerror = (event) => {
+            console.error('Speech Recognition Error', event.error);
+            stopListening();
+        };
+
+        recognition.onend = () => {
+            stopListening();
+        };
+    }
+
+    function toggleMic() {
+        if (!recognition) {
+            alert("Speech recognition is not supported in this browser.");
+            return;
+        }
+
+        if (isListening) {
+            stopListening();
+        } else {
+            startListening();
+        }
+    }
+
+    function startListening() {
+        isListening = true;
+        const currentLang = localStorage.getItem('lang') || 'en';
+        // Set recognition language based on current selection
+        if (currentLang === 'hi') recognition.lang = 'hi-IN';
+        else if (currentLang === 'te') recognition.lang = 'te-IN';
+        else recognition.lang = 'en-US';
+
+        document.getElementById('mic-btn').classList.add('listening');
+        document.getElementById('ai-input').placeholder = "Listening...";
+        recognition.start();
+    }
+
+    function stopListening() {
+        isListening = false;
+        document.getElementById('mic-btn').classList.remove('listening');
+        document.getElementById('ai-input').placeholder = "How are you feeling?";
+        try { recognition.stop(); } catch (e) { }
+    }
+
+    function toggleTTS() {
+        isTTSActive = !isTTSActive;
+        const btn = document.getElementById('tts-toggle');
+        btn.classList.toggle('active');
+        btn.innerHTML = isTTSActive ? '🔊' : '🔈';
+        if (!isTTSActive) window.speechSynthesis.cancel();
+    }
+
+    function speakText(text) {
+        if (!isTTSActive) return;
+        window.speechSynthesis.cancel(); // Stop current speech
+        const currentLang = localStorage.getItem('lang') || 'en';
+        const utterance = new SpeechSynthesisUtterance(text);
+
+        // Match TTS voice to selected language
+        if (currentLang === 'hi') utterance.lang = 'hi-IN';
+        else if (currentLang === 'te') utterance.lang = 'te-IN';
+        else utterance.lang = 'en-US';
+
+        utterance.rate = 1;
+        utterance.pitch = 1;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function toggleAIChat() {
+        const chat = document.getElementById('ai-chat-window');
+        if (!chat) return;
+        chat.classList.toggle('show');
+        if (chat.classList.contains('show')) {
+            document.getElementById('ai-input').focus();
+        } else {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    function handleAIEnter(e) {
+        if (e.key === 'Enter') sendAIMessage();
+    }
+
+    async function sendAIMessage() {
+        const input = document.getElementById('ai-input');
+        const text = input.value.trim();
+        if (!text) return;
+
+        const msgs = document.getElementById('ai-messages');
+
+        // User Message
+        const userDiv = document.createElement('div');
+        userDiv.className = 'ai-message user';
+        userDiv.textContent = text;
+        msgs.appendChild(userDiv);
+        input.value = '';
+        msgs.scrollTop = msgs.scrollHeight;
+
+        // If listening, stop it
+        if (isListening) stopListening();
+
+        // Typing indicator
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'ai-message bot';
+        typingDiv.id = 'ai-typing';
+        typingDiv.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+        msgs.appendChild(typingDiv);
+        msgs.scrollTop = msgs.scrollHeight;
+
+        try {
+            const currentLang = localStorage.getItem('lang') || 'en';
+            const res = await fetch('/api/ai/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: text, language: currentLang })
+            });
+            const data = await res.json();
+
+            const typingIndicator = document.getElementById('ai-typing');
+            if (typingIndicator) typingIndicator.remove();
+
+            const botDiv = document.createElement('div');
+            botDiv.className = 'ai-message bot';
+            botDiv.textContent = data.reply;
+            msgs.appendChild(botDiv);
+            msgs.scrollTop = msgs.scrollHeight;
+
+            // Talk back
+            speakText(data.reply);
+
+        } catch (e) {
+            console.error(e);
+            const typingIndicator = document.getElementById('ai-typing');
+            if (typingIndicator) typingIndicator.remove();
+
+            const errDiv = document.createElement('div');
+            errDiv.className = 'ai-message bot';
+            errDiv.style.color = 'var(--danger)';
+            errDiv.textContent = 'Oops! I had trouble connecting. Please try again.';
+            msgs.appendChild(errDiv);
+        }
+    }
+</script>

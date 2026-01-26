@@ -53,89 +53,114 @@
 
   <section class="login-container">
     <svg class="login-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="100" cy="100" r="95" fill="#ffffff" stroke="#2575fc" stroke-width="3" />
+      <circle cx="100" cy="100" r="95" fill="transparent" stroke="url(#loginGradient)" stroke-width="3" />
       <defs>
         <linearGradient id="loginGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#6a11cb;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#2575fc;stop-opacity:1" />
+          <stop offset="0%" style="stop-color:var(--primary);stop-opacity:1" />
+          <stop offset="100%" style="stop-color:var(--secondary);stop-opacity:1" />
         </linearGradient>
       </defs>
       <rect x="85" y="50" width="30" height="100" fill="url(#loginGradient)" rx="5" />
       <rect x="50" y="85" width="100" height="30" fill="url(#loginGradient)" rx="5" />
       <path d="M 35 140 L 50 140 L 60 125 L 70 145 L 80 135 L 100 155 L 120 135 L 130 145 L 140 125 L 150 140 L 165 140"
-        fill="none" stroke="#ff6f61" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+        fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
 
     <div class="box">
-      <h2 data-i18n="login.title" style="text-align: center; color: #2575fc;">Login to Your Account</h2>
+      <h2 style="text-align: center; color: var(--text-bright); margin-bottom: 25px;">
+        <%= typeof isSignup !=='undefined' && isSignup ? 'Create Your Account' : 'Login to Your Account' %>
+      </h2>
+
       <% if (error) { %>
-        <p class="error" style="text-align: center;">⚠️ <%= error %>
+        <p class="error"
+          style="text-align: center; background: rgba(244, 63, 94, 0.1); color: var(--danger); padding: 12px; border-radius: 12px; border: 1px solid rgba(244, 63, 94, 0.2); margin-bottom: 20px;">
+          ⚠️ <%= error %>
         </p>
         <% } %>
 
-          <!-- Google Sign-In Button -->
-          <div style="margin-bottom: 20px;">
-            <a href="/auth/google" class="btn"
-              style="display: block; text-align: center; text-decoration: none; background: #4285F4; padding: 12px; border-radius: 4px;">
-              <svg style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px; display: inline-block;"
-                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <g transform="matrix(1, 0, 0, 1, 27.009766, -39.238281)">
-                  <path fill="#4285F4"
-                    d="M -3.264 51.509 C -3.264 50.719 -3.334 49.969 -3.454 49.239 L -14.754 49.239 L -14.754 53.749 L -8.284 53.749 C -8.574 55.229 -9.424 56.479 -10.684 57.329 L -10.684 60.329 L -6.824 60.329 C -4.564 58.239 -3.264 55.159 -3.264 51.509 Z" />
-                  <path fill="#34A853"
-                    d="M -14.754 63.239 C -11.514 63.239 -8.804 62.159 -6.824 60.329 L -10.684 57.329 C -11.764 58.049 -13.134 58.489 -14.754 58.489 C -17.884 58.489 -20.534 56.379 -21.484 53.529 L -25.464 53.529 L -25.464 56.619 C -23.494 60.539 -19.444 63.239 -14.754 63.239 Z" />
-                  <path fill="#FBBC05"
-                    d="M -21.484 53.529 C -21.734 52.809 -21.864 52.039 -21.864 51.239 C -21.864 50.439 -21.724 49.669 -21.484 48.949 L -21.484 45.859 L -25.464 45.859 C -26.284 47.479 -26.754 49.299 -26.754 51.239 C -26.754 53.179 -26.284 54.999 -25.464 56.619 L -21.484 53.529 Z" />
-                  <path fill="#EA4335"
-                    d="M -14.754 43.989 C -13.004 43.989 -11.404 44.599 -10.154 45.789 L -6.734 42.369 C -8.804 40.429 -11.514 39.239 -14.754 39.239 C -19.444 39.239 -23.494 41.939 -25.464 45.859 L -21.484 48.949 C -20.534 46.099 -17.884 43.989 -14.754 43.989 Z" />
-                </g>
-              </svg>
-              Continue with Google
-            </a>
-          </div>
-
-          <div style="text-align: center; margin-bottom: 20px; position: relative;">
-            <span
-              style="background: white; padding: 0 10px; position: relative; z-index: 1; color: #999; font-size: 14px;">or</span>
-            <div style="position: absolute; top: 50%; left: 0; right: 0; border-top: 1px solid #ddd; z-index: 0;"></div>
-          </div>
-
-          <form action="/auth/login" method="POST">
-            <div style="margin-bottom: 16px;">
-              <label for="email" data-i18n="login.email"
-                style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Email</label>
-              <input type="email" id="email" name="email" required data-placeholder-i18n="login.email_placeholder"
-                placeholder="your@email.com"
-                style="width: 100%; padding: 10px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; transition: border-color 0.3s;">
-            </div>
-
+          <% if (typeof isSignup==='undefined' || !isSignup) { %>
+            <!-- Google Sign-In Button -->
             <div style="margin-bottom: 20px;">
-              <label for="password" data-i18n="login.password"
-                style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Password</label>
-              <input type="password" id="password" name="password" required
-                data-placeholder-i18n="login.password_placeholder" placeholder="Enter your password"
-                style="width: 100%; padding: 10px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; transition: border-color 0.3s;">
+              <a href="/auth/google" class="btn outline"
+                style="width: 100%; text-decoration: none; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: var(--text-bright);">
+                <svg style="width: 20px; height: 20px; margin-right: 12px;" viewBox="0 0 24 24">
+                  <path fill="#EA4335"
+                    d="M24 12.273c0-.837-.074-1.641-.213-2.414H12.273v4.564h6.581c-.284 1.529-1.145 2.825-2.443 3.69v3.064h3.957C22.68 19.012 24 15.845 24 12.273z" />
+                  <path fill="#34A853"
+                    d="M12.273 24c3.242 0 5.958-1.075 7.944-2.912l-3.957-3.064c-1.096.734-2.5 1.168-3.987 1.168-3.067 0-5.663-2.071-6.59-4.857H1.673v3.155C3.655 21.366 7.7 24 12.273 24z" />
+                  <path fill="#FBBC05"
+                    d="M5.683 14.335A7.18 7.18 0 0 1 5.273 12c0-.814.14-1.603.41-2.335V6.51H1.673A11.99 11.99 0 0 0 0 12c0 1.99.485 3.865 1.339 5.525l4.344-3.19z" />
+                  <path fill="#4285F4"
+                    d="M12.273 4.693c1.763 0 3.346.606 4.59 1.794l3.443-3.443C18.223 1.075 15.515 0 12.273 0 7.7 0 3.655 2.634 1.673 6.51l4.01 3.155c.927-2.786 3.523-4.972 6.59-4.972z" />
+                </svg>
+                Continue with Google
+              </a>
             </div>
 
-            <button class="btn" type="submit" data-i18n="login.submit"
-              style="width: 100%; padding: 12px; font-size: 16px; font-weight: 600;">Login</button>
-          </form>
+            <div style="text-align: center; margin-bottom: 25px; position: relative;">
+              <span
+                style="background: var(--bg-dark); padding: 0 15px; position: relative; z-index: 1; color: var(--text-dim); font-size: 14px;">or
+                use email</span>
+              <div
+                style="position: absolute; top: 50%; left: 0; right: 0; border-top: 1px solid rgba(255,255,255,0.05); z-index: 0;">
+              </div>
+            </div>
+            <% } %>
 
-          <div
-            style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; font-size: 12px; color: #666;">
-            <strong data-i18n="login.demo_title" style="display: block; margin-bottom: 10px;">📝 Demo
-              Credentials:</strong>
-            <p style="margin: 5px 0;">Email: <code
-                style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px;">test@example.com</code></p>
-            <p style="margin: 5px 0;">Password: <code
-                style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px;">password123</code></p>
-          </div>
+              <form action="/auth/<%= typeof isSignup !== 'undefined' && isSignup ? 'signup' : 'login' %>"
+                method="POST">
+                <% if (typeof isSignup !=='undefined' && isSignup) { %>
+                  <div style="margin-bottom: 20px;">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="John Doe">
+                  </div>
+                  <% } %>
+
+                    <div style="margin-bottom: 20px;">
+                      <label for="email">Email</label>
+                      <input type="email" id="email" name="email" required placeholder="your@email.com">
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                      <label for="password">Password</label>
+                      <input type="password" id="password" name="password" required placeholder="••••••••">
+                    </div>
+
+                    <button class="btn" type="submit" style="width: 100%;">
+                      <%= typeof isSignup !=='undefined' && isSignup ? 'Create Account' : 'Login' %>
+                    </button>
+              </form>
+
+              <div style="margin-top: 30px; text-align: center; color: var(--text-dim); font-size: 0.95em;">
+                <% if (typeof isSignup !=='undefined' && isSignup) { %>
+                  Already have an account? <a href="/auth/login"
+                    style="color: var(--primary); font-weight: 700; text-decoration: none;">Login here</a>
+                  <% } else { %>
+                    Don't have an account? <a href="/auth/signup"
+                      style="color: var(--primary); font-weight: 700; text-decoration: none;">Sign up here</a>
+                    <% } %>
+              </div>
+
+              <% if (typeof isSignup==='undefined' || !isSignup) { %>
+                <div
+                  style="margin-top: 40px; padding: 20px; background: rgba(14, 165, 233, 0.05); border-radius: 16px; border: 1px solid rgba(14, 165, 233, 0.1); text-align: center; font-size: 13px;">
+                  <p
+                    style="margin: 0 0 10px 0; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
+                    Demo Credentials</p>
+                  <div style="color: var(--text-bright);">
+                    <code>test@example.com</code> / <code>password123</code>
+                  </div>
+                </div>
+                <% } %>
     </div>
   </section>
 
-  <footer>
+  <footer style="text-align: center; padding: 40px; color: var(--text-dim); font-size: 14px;">
     <p>© 2026 Smart Health Connect | Secure Health Management</p>
   </footer>
+</body>
+
+</html>
 </body>
 
 </html>

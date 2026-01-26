@@ -1,6 +1,6 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const { User } = require('../models');
+const { getUserById, getUserByGoogleId, getUserByEmail, createUser, updateUser } = require('../database');
 
 // Serialize user for session
 passport.serializeUser((user, done) => {
@@ -10,7 +10,7 @@ passport.serializeUser((user, done) => {
 // Deserialize user from session
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await User.findByPk(id);
+    const user = await getUserById(id);
     done(null, user);
   } catch (error) {
     done(error, null);
@@ -26,28 +26,31 @@ passport.use(new GoogleStrategy({
   async (accessToken, refreshToken, profile, done) => {
     try {
       // Extract user info from Google profile
-      const { email, name, picture, id: googleId } = profile._json;
+      const { email, name, picture } = profile._json;
+      const googleId = profile.id;
 
       // Check if user exists by Google ID
-      let user = await User.findOne({ where: { googleId } });
+      let user = await getUserByGoogleId(googleId);
 
       if (!user) {
         // Check if email already exists
-        user = await User.findOne({ where: { email } });
+        user = await getUserByEmail(email);
 
         if (user) {
           // Link Google account to existing user
-          user.googleId = googleId;
-          if (!user.photo) user.photo = picture;
-          await user.save();
+          user = await updateUser(user.id, {
+            googleId,
+            photo: picture // Assuming 'photo' field in Firestore
+          });
         } else {
           // Create new user
-          user = await User.create({
+          user = await createUser({
             email,
             name: name || 'User',
             photo: picture,
             googleId,
-            role: 'patient'
+            role: 'patient',
+            provider: 'google'
           });
         }
       }

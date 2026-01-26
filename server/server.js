@@ -13,18 +13,15 @@ const vitalRoutes = require("./routes/vitals");
 const medicineRoutes = require("./routes/medicines");
 const orderRoutes = require("./routes/orders");
 const { requireAuth, redirectIfLoggedIn } = require("./middleware/auth");
-const db = require("./models");
+const db = require("./database"); // This is the Firestore database wrapper
 require("./middleware/passport-config");
 
 // Initialize Express App
 const app = express();
 
-// Sync Database
-db.sequelize.sync({ force: false, alter: true }).then(() => {
-  console.log("Database synced");
-}).catch(err => {
-  console.error("Failed to sync database:", err);
-});
+// Initialize SQLite database
+// Database will be synced and demo user created if needed (handled in database.js)
+console.log("SQLite database adapter loaded");
 
 // View engine setup
 app.set("view engine", "ejs");
@@ -99,6 +96,7 @@ app.use("/api/appointments", appointmentRoutes);
 app.use("/api/vitals", vitalRoutes);
 app.use("/pharmacy", medicineRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/ai", require("./routes/ai_chat"));
 
 app.get("/logout", (req, res) => {
   req.logout((err) => {

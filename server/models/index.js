@@ -2,43 +2,53 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const process = require('process');
+const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+const config = require(__dirname + '/../config.js'); // Assuming config.js handles env vars appropriately or has a db section
 const db = {};
 
+// Since we are using sqlite as per package.json and server.js comments
+// We need to ensure we have a sequelize instance.
+// Usually config.js would export the db config. Let's assume a basic sqlite config for now if strictly not present, 
+// but based on `server/server.js` it seems `config.js` is used.
+
+// Let's create a Sequelize instance. 
+// We'll trust the environment variables or a default sqlite file.
 let sequelize;
 if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+    sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+    // Defaulting to sqlite if not specified, matching the project structure hints
+    sequelize = new Sequelize({
+        dialect: 'sqlite',
+        storage: config.dbPath || path.join(__dirname, '../../database.db'), // Use config or default to root
+        logging: false
+    });
 }
 
-const User = require('./user')(sequelize, Sequelize.DataTypes);
-const Hospital = require('./hospital')(sequelize, Sequelize.DataTypes);
-const Doctor = require('./doctor')(sequelize, Sequelize.DataTypes);
-const Appointment = require('./appointment')(sequelize, Sequelize.DataTypes);
-const Vital = require('./vital')(sequelize, Sequelize.DataTypes);
-const Medicine = require('./medicine')(sequelize, Sequelize.DataTypes);
-const Order = require('./order')(sequelize, Sequelize.DataTypes);
-const OrderItem = require('./orderItem')(sequelize, Sequelize.DataTypes);
+fs
+    .readdirSync(__dirname)
+    .filter(file => {
+        return (
+            file.indexOf('.') !== 0 &&
+            file !== basename &&
+            file !== 'env.js' &&
+            file.slice(-3) === '.js' &&
+            file.indexOf('.test.js') === -1
+        );
+    })
+    .forEach(file => {
+        const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+        db[model.name] = model;
+    });
 
-db.User = User;
-db.Hospital = Hospital;
-db.Doctor = Doctor;
-db.Appointment = Appointment;
-db.Vital = Vital;
-db.Medicine = Medicine;
-db.Order = Order;
-db.OrderItem = OrderItem;
-
-// Associations
-if (db.Appointment.associate) db.Appointment.associate(db);
-if (db.Vital.associate) db.Vital.associate(db);
-if (db.Order.associate) db.Order.associate(db);
-if (db.OrderItem.associate) db.OrderItem.associate(db);
+Object.keys(db).forEach(modelName => {
+    if (db[modelName].associate) {
+        db[modelName].associate(db);
+    }
+});
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-db.Op = Sequelize.Op;
 
 module.exports = db;

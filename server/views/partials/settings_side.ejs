@@ -1,0 +1,51 @@
+<div class="settings-toggle" onclick="toggleSettings()" title="Settings">
+    ⚙️
+</div>
+
+<div id="settings-panel">
+    <div class="settings-header">
+        <h3 data-i18n="settings.title">Settings</h3>
+        <span class="settings-close" onclick="toggleSettings()">×</span>
+    </div>
+
+    <div class="settings-group">
+        <label data-i18n="settings.language">Language</label>
+        <select id="lang-select-side" class="settings-select" onchange="changeLanguage(this.value)">
+            <option value="en">English (UK/US)</option>
+            <option value="hi">Hindi (हिंदी)</option>
+            <option value="te">Telugu (తెలుగు)</option>
+        </select>
+    </div>
+
+    <div class="settings-group">
+        <label data-i18n="settings.theme">Theme</label>
+        <select class="settings-select" disabled>
+            <option>Premium Dark (Active)</option>
+        </select>
+    </div>
+</div>
+
+<script>
+    function toggleSettings() {
+        const panel = document.getElementById('settings-panel');
+        panel.classList.toggle('open');
+    }
+
+    function changeLanguage(lang) {
+        localStorage.setItem('lang', lang);
+        if (typeof loadLang === 'function') {
+            loadLang(lang);
+        } else {
+            // Fallback if loadLang is not global
+            location.reload();
+        }
+    }
+
+    // Sync side select with current lang
+    document.addEventListener('DOMContentLoaded', () => {
+        const sideSelect = document.getElementById('lang-select-side');
+        if (sideSelect) {
+            sideSelect.value = localStorage.getItem('lang') || 'en';
+        }
+    });
+</script>

@@ -20,439 +20,118 @@ A comprehensive healthcare management platform that connects patients with hospi
 
 ## ✨ Features
 
-### 🏥 **Hospital Management**
-- Search and browse hospitals by location
-- View hospital details, specialties, and ratings
-- Interactive map integration for hospital locations
+### 🏥 **Hospital Management (Live Tirupati Data)**
+- Search and browse real hospitals in Tirupati (SVIMS, Apollo, Amara)
+- View hospital details, specialties, and real-time ratings
+- Interactive Google Maps integration for precise hospital locations
 - Filter hospitals by services and facilities
 
-### 👨‍⚕️ **Doctor Services**
-- Browse doctors by specialty and availability
-- View detailed doctor profiles with experience and ratings
-- Book appointments with preferred doctors
-- Real-time appointment scheduling
+### 👨‍⚕️ **Doctor Services (Real Specialists)**
+- Browse real specialist doctors in Tirupati (General Surgery, Neurology, Pediatrics, etc.)
+- View detailed profiles of doctors like Dr. S. Anwar Basha and Dr. Harshita Reddy
+- Real-time appointment scheduling system
+- Specialization-based filtering and search functionality
 
-### 💊 **Online Pharmacy**
-- Browse medicines by category
-- Search functionality for quick medicine lookup
-- Shopping cart with localStorage persistence
-- Prescription requirement indicators
-- Secure checkout process
+### 🤖 **SmartHealth AI Triage Assistant**
+- 24/7 AI-powered medical triage assistant
+- Automated symptom checking and urgency classification (Critical, Moderate, Mild)
+- **Smart Demo Mode**: Provides realistic medical advice even without an API key
+- OpenAI integration for advanced conversational health guidance
 
-### 📊 **Health Dashboard**
-- Personalized user dashboard
-- Appointment history and upcoming bookings
-- Order tracking for medicines
-- Health vitals monitoring
-- Quick access to all services
+### 💊 **Advanced Online Pharmacy**
+- 90+ medicines across 9 specialized categories
+- Real-time stock management and prescription requirement indicators
+- Enhanced shopping cart with persistent storage
+- Category-wise browsing (Heart & BP, Diabetes, Skin Care, etc.)
 
-### 🔐 **Authentication & Security**
-- Secure user registration and login
-- Google OAuth 2.0 integration
-- Password encryption with bcryptjs
-- Session management with express-session
-- Protected routes with authentication middleware
-- Security headers with Helmet
-- Rate limiting for API protection
+### 📊 **Integrated Health Dashboard**
+- Personalized user health overview
+- **Live Vitals Tracking**: Monitor heart rate and health scores
+- Appointment history and interactive prescription tracking
+- Quick access to all healthcare services
+
+### 🔐 **Advanced Security**
+- Google OAuth 2.0 & traditional Email/Password login
+- Secure session management with CSRF protections
+- Premium Dark Mode UI with Glassmorphism aesthetics
+- API Rate limiting and security header stabilization (Helmet)
 
 ### 🌍 **Multi-language Support**
-- English, Hindi (हिंदी), and Telugu (తెలుగు)
-- Dynamic language switching
-- LocalStorage persistence for language preferences
-
-### 📱 **Responsive Design**
-- Mobile-first approach
-- Optimized for all screen sizes
-- Modern gradient UI with smooth animations
-- Professional healthcare-themed design
+- Full support for English, Hindi (हिंदी), and Telugu (తెలుగు)
+- Instant language switching across all pages
+- Native localization for specialized medical terms
 
 ## 🛠 Tech Stack
 
 ### Backend
-- **Node.js** - Runtime environment
-- **Express.js** - Web application framework
-- **Sequelize** - ORM for database management
-- **SQLite3** - Database (development)
-- **Firebase Admin** - Cloud services integration
-- **Passport.js** - Authentication middleware
-- **EJS** - Server-side templating
+- **Node.js**: Modern runtime environment
+- **Express.js**: High-performance web framework
+- **Sequelize & SQLite3**: Current reliable data persistence
+- **Firebase Admin SDK**: Transitioning to Cloud Firestore
+- **Passport.js**: Multi-strategy authentication (Local + Google)
+- **EJS**: Dynamic server-side templating
+- **OpenAI API**: Powering the AI Triage Assistant
 
 ### Frontend
-- **Vanilla JavaScript** - Client-side logic
-- **CSS3** - Styling with gradients and animations
-- **SVG** - Custom healthcare logo
-- **Web Speech API** - Voice command support
-- **LocalStorage** - Client-side data persistence
+- **Vanilla JavaScript**: Reactive client-side logic
+- **CSS3 / Glassmorphism**: Premium dark UI with blur effects and gradients
+- **Google Maps API**: Real-time location services
+- **Socket.io**: Real-time communication foundation
+- **Web Speech API**: Integrated voice command support
 
-### Security & Performance
-- **Helmet** - Security headers
-- **express-rate-limit** - API rate limiting
-- **bcryptjs** - Password hashing
-- **express-session** - Session management
-- **dotenv** - Environment configuration
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-
-- Node.js (v14 or higher)
-- npm or yarn
-- Git
+- Node.js (v16.0.0 or higher)
+- Google Maps API Key (Optional, for maps)
+- OpenAI API Key (Optional, for AI - defaults to Demo Mode)
 
 ### Installation
-
-1. **Clone the repository**
+1. **Clone & Install**
    ```bash
    git clone https://github.com/jeevanasreekonnipati-ops/carehealthplatform.app.git
-   cd smart-health
-   ```
-
-2. **Install dependencies**
-   ```bash
    npm install
    ```
 
-3. **Set up environment variables**
-   ```bash
-   cp .env.example .env
-   ```
-   Edit `.env` and add your configuration:
+2. **Environment Setup**
+   Create a `.env` file based on `.env.example`:
    ```env
    PORT=3000
-   SESSION_SECRET=your-secret-key-here
-   GOOGLE_CLIENT_ID=your-google-client-id
-   GOOGLE_CLIENT_SECRET=your-google-client-secret
+   SESSION_SECRET=your-secret
+   GOOGLE_API_KEY=your-maps-key
+   OPENAI_API_KEY=your-ai-key
+   GOOGLE_CLIENT_ID=your-google-id
+   GOOGLE_CLIENT_SECRET=your-google-secret
    ```
 
-4. **Initialize the database**
+3. **Initialize App**
+   The application automatically seeds the latest Tirupati medical data on first run.
    ```bash
-   node scripts/sync-db.js
+   npm run dev
    ```
 
-5. **Seed the database with sample data**
-   ```bash
-   node scripts/seed-data.js
-   ```
+---
 
-6. **Start the development server**
-   ```bash
-   npm start
-   ```
+## 📂 Project Structure
+- `server/routes/ai_chat.js`: AI Triage logic
+- `server/scripts/seed.js`: Real-time Tirupati data seeds
+- `public/style.css`: Premium Dark Theme styling
+- `FIREBASE_SETUP.md`: Instructions for Cloud migration
 
-7. **Access the application**
-   ```
-   Open your browser and navigate to: http://localhost:3000
-   ```
-
-### Demo Credentials
-
-For testing purposes, use these credentials:
-- **Email:** user@example.com
-- **Password:** 1234
-
-## 📁 Project Structure
-
-```
-smart-health/
-├── server/
-│   ├── config/
-│   │   └── passport.js          # Passport authentication config
-│   ├── middleware/
-│   │   ├── auth.js              # Authentication middleware
-│   │   ├── errorHandler.js      # Error handling middleware
-│   │   ├── rateLimiter.js       # Rate limiting middleware
-│   │   └── validation.js        # Input validation
-│   ├── models/
-│   │   ├── index.js             # Model associations
-│   │   ├── user.js              # User model
-│   │   ├── doctor.js            # Doctor model
-│   │   ├── hospital.js          # Hospital model
-│   │   ├── medicine.js          # Medicine model
-│   │   ├── appointment.js       # Appointment model
-│   │   ├── order.js             # Order model
-│   │   ├── orderItem.js         # Order item model
-│   │   └── vital.js             # Health vitals model
-│   ├── routes/
-│   │   ├── auth.js              # Authentication routes
-│   │   ├── doctors.js           # Doctor routes
-│   │   ├── hospitals.js         # Hospital routes
-│   │   ├── medicines.js         # Pharmacy routes
-│   │   ├── appointments.js      # Appointment routes
-│   │   ├── orders.js            # Order routes
-│   │   └── vitals.js            # Health vitals routes
-│   ├── services/
-│   │   └── emailService.js      # Email service (future)
-│   ├── views/
-│   │   ├── partials/
-│   │   │   └── header.ejs       # Shared header component
-│   │   ├── index.ejs            # Home page
-│   │   ├── login.ejs            # Login page
-│   │   ├── dashboard.ejs        # User dashboard
-│   │   ├── doctors.ejs          # Doctors listing
-│   │   ├── pharmacy.ejs         # Pharmacy page
-│   │   ├── cart.ejs             # Shopping cart
-│   │   ├── 404.ejs              # Not found page
-│   │   └── 500.ejs              # Error page
-│   ├── config.js                # App configuration
-│   ├── database.js              # Database setup
-│   ├── firebase-config.js       # Firebase configuration
-│   └── server.js                # Main server file
-├── public/
-│   ├── i18n/
-│   │   ├── en.json              # English translations
-│   │   ├── hi.json              # Hindi translations
-│   │   └── te.json              # Telugu translations
-│   ├── logo.svg                 # Healthcare logo
-│   ├── style.css                # Global styles
-│   ├── app.js                   # Client-side logic
-│   ├── map.js                   # Map integration
-│   └── voice.js                 # Voice commands
-├── scripts/
-│   ├── sync-db.js               # Database sync script
-│   ├── seed-data.js             # Seed all data
-│   ├── seed-hospitals.js        # Seed hospitals
-│   └── seed-users.js            # Seed users
-├── .env.example                 # Environment template
-├── .gitignore                   # Git ignore rules
-├── Dockerfile                   # Docker configuration
-├── Procfile                     # Heroku deployment
-├── package.json                 # Dependencies
-└── README.md                    # This file
-```
-
-## 🔐 Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-# Server Configuration
-PORT=3000
-NODE_ENV=development
-
-# Session Secret
-SESSION_SECRET=your-super-secret-session-key-change-this
-
-# Google OAuth (Optional)
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-GOOGLE_CALLBACK_URL=http://localhost:3000/auth/google/callback
-
-# Firebase Configuration (Optional)
-FIREBASE_PROJECT_ID=your-project-id
-FIREBASE_PRIVATE_KEY=your-private-key
-FIREBASE_CLIENT_EMAIL=your-client-email
-
-# Database (Production)
-DATABASE_URL=your-database-url
-```
-
-## 💾 Database Setup
-
-### Development (SQLite)
-
-The application uses SQLite for development. The database is automatically created when you run:
-
-```bash
-node scripts/sync-db.js
-```
-
-### Seeding Data
-
-Populate the database with sample data:
-
-```bash
-# Seed all data (recommended)
-node scripts/seed-data.js
-
-# Or seed individually
-node scripts/seed-users.js
-node scripts/seed-hospitals.js
-```
-
-### Database Models
-
-- **User** - User accounts and profiles
-- **Doctor** - Doctor information and specialties
-- **Hospital** - Hospital details and locations
-- **Medicine** - Pharmacy inventory
-- **Appointment** - Doctor appointments
-- **Order** - Medicine orders
-- **OrderItem** - Order line items
-- **Vital** - Health vitals tracking
-
-## 🔌 API Endpoints
-
-### Authentication
-```
-POST   /auth/register          - Register new user
-POST   /auth/login             - User login
-GET    /auth/logout            - User logout
-GET    /auth/google            - Google OAuth login
-GET    /auth/google/callback   - Google OAuth callback
-```
-
-### Hospitals
-```
-GET    /api/hospitals          - Get all hospitals
-GET    /api/hospitals/:id      - Get hospital by ID
-GET    /api/hospitals/search   - Search hospitals
-```
-
-### Doctors
-```
-GET    /doctors                - View doctors page
-GET    /api/doctors            - Get all doctors (API)
-GET    /api/doctors/:id        - Get doctor by ID
-GET    /api/doctors/specialty/:specialty - Filter by specialty
-```
-
-### Pharmacy
-```
-GET    /pharmacy               - View pharmacy page
-GET    /api/medicines          - Get all medicines
-GET    /api/medicines/:id      - Get medicine by ID
-GET    /api/medicines/search   - Search medicines
-```
-
-### Appointments
-```
-GET    /api/appointments       - Get user appointments
-POST   /api/appointments       - Book appointment
-PUT    /api/appointments/:id   - Update appointment
-DELETE /api/appointments/:id   - Cancel appointment
-```
-
-### Orders
-```
-GET    /api/orders/cart        - View cart page
-POST   /api/orders/checkout    - Checkout cart
-GET    /api/orders/my          - Get user orders
-```
-
-### Health Vitals
-```
-GET    /api/vitals             - Get user vitals
-POST   /api/vitals             - Add vital record
-```
-
-## 🎨 Design Features
-
-### Color Scheme
-- **Primary:** #6a11cb (Purple) - Trust & Authority
-- **Secondary:** #2575fc (Blue) - Calm & Care
-- **Accent:** #ff6f61 (Coral) - Energy & Life
-- **Gradients:** Modern purple-blue gradients throughout
-
-### Typography
-- **Font Family:** 'Segoe UI', system-ui, sans-serif
-- **Headers:** Bold, prominent sizing
-- **Body:** Clean, readable text
-
-### Animations
-- Smooth transitions on hover
-- Floating logo animation
-- Card hover effects
-- Loading states
-
-## 🚢 Deployment
-
-### Heroku Deployment
-
-1. **Install Heroku CLI**
-   ```bash
-   npm install -g heroku
-   ```
-
-2. **Login to Heroku**
-   ```bash
-   heroku login
-   ```
-
-3. **Create Heroku app**
-   ```bash
-   heroku create your-app-name
-   ```
-
-4. **Set environment variables**
-   ```bash
-   heroku config:set SESSION_SECRET=your-secret
-   heroku config:set NODE_ENV=production
-   ```
-
-5. **Deploy**
-   ```bash
-   git push heroku main
-   ```
-
-### Docker Deployment
-
-```bash
-# Build image
-docker build -t smart-health .
-
-# Run container
-docker run -p 3000:3000 --env-file .env smart-health
-```
-
-## 🧪 Testing
-
-```bash
-# Run tests (when implemented)
-npm test
-
-# Run with coverage
-npm run test:coverage
-```
-
-## 📝 Scripts
-
-```bash
-npm start              # Start production server
-npm run dev            # Start development server with nodemon
-node scripts/sync-db.js    # Sync database schema
-node scripts/seed-data.js  # Seed sample data
-```
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the ISC License.
-
-## 👥 Authors
-
-- **Jeevana Sree Konnipati** - Initial work
-
-## 🙏 Acknowledgments
-
-- Healthcare icons and design inspiration
-- Open source community
-- All contributors
-
-## 📞 Support
-
-For support, email support@smarthealth.com or open an issue in the repository.
+---
 
 ## 🔮 Future Enhancements
+- [ ] Complete Firestore migration for absolute scalability
+- [ ] Integrated Video Consultations via WebRTC
+- [ ] Multi-tenant Hospital Admin Dashboards
+- [ ] AI-powered prescription analysis (OCR)
+- [ ] Blood Bank real-time availability tracking
 
-- [ ] Real-time chat with doctors
-- [ ] Video consultation integration
-- [ ] Payment gateway integration
-- [ ] Mobile app (React Native)
-- [ ] Advanced analytics dashboard
-- [ ] AI-powered health recommendations
-- [ ] Prescription management system
-- [ ] Lab test booking
-- [ ] Insurance integration
-- [ ] Multi-tenant support for hospitals
+---
+**Smart Health Connect**: Empowering healthcare through technology.
+**Made with ❤️ for Tirupati and beyond**
 
 ---
 

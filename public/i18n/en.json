@@ -3,8 +3,10 @@
   "nav.login": "Login",
   "nav.dashboard": "Dashboard",
   "nav.logout": "Logout",
-  "hero.title": "Your health, connected",
-  "hero.subtitle": "Find hospitals, book appointments, track vitals.",
+  "nav.doctors": "Doctors",
+  "nav.pharmacy": "Pharmacy",
+  "hero.title_main": "Your Health, Reimagined.",
+  "hero.subtitle_main": "Experience the future of healthcare. Book appointments, order medicines, and track your history - all in one seamless platform.",
   "hero.cta": "Get Started",
   "maps.addressPlaceholder": "Enter address",
   "maps.search": "Search",
@@ -25,5 +27,9 @@
   "dash.prescriptions": "Prescriptions",
   "dash.prescriptions_desc": "Manage your medical prescriptions",
   "dash.vitals": "Health Vitals",
-  "dash.vitals_desc": "Track your health metrics"
+  "dash.vitals_desc": "Track your health metrics",
+  "settings.title": "Settings",
+  "settings.language": "Language",
+  "settings.theme": "Theme",
+  "ai.welcome": "Hello! I'm Smart Health AI. I can help with symptom triage and basic health questions. How are you feeling today?"
 }
