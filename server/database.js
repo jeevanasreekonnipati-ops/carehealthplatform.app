@@ -233,7 +233,7 @@ const getHospitals = async (filters = {}) => {
       query = query.where('city', '==', filters.city);
     }
     const snapshot = await query.get();
-    const hospitals = snapshot.docs.map(doc => formatDoc(doc));
+    const hospitals = snapshot.docs.map(doc => formatDoc(doc)).filter(Boolean);
 
     if (hospitals.length === 0 && !filters.city) {
       return MOCK_HOSPITALS;
@@ -267,7 +267,7 @@ const getDoctors = async (filters = {}) => {
       query = query.where('specialization', '==', filters.specialty);
     }
     const snapshot = await query.get();
-    let doctors = snapshot.docs.map(doc => formatDoc(doc));
+    let doctors = snapshot.docs.map(doc => formatDoc(doc)).filter(Boolean);
 
     if (filters.query) {
       const q = filters.query.toLowerCase();
@@ -306,7 +306,7 @@ const getMedicines = async (filters = {}) => {
       query = query.where('category', '==', filters.category);
     }
     const snapshot = await query.get();
-    let medicines = snapshot.docs.map(doc => formatDoc(doc));
+    let medicines = snapshot.docs.map(doc => formatDoc(doc)).filter(Boolean);
 
     if (filters.query) {
       const q = filters.query.toLowerCase();
@@ -360,7 +360,7 @@ const getVitalsByUser = async (userId, limit = 50) => {
       .orderBy('recordedAt', 'desc')
       .limit(limit)
       .get();
-    const vitals = snapshot.docs.map(doc => formatDoc(doc));
+    const vitals = snapshot.docs.map(doc => formatDoc(doc)).filter(Boolean);
 
     if (vitals.length === 0) {
       return getMockVitals(userId);
@@ -398,7 +398,7 @@ const getAppointmentsByUser = async (userId) => {
       .orderBy('date', 'desc')
       .get();
 
-    const appointments = snapshot.docs.map(doc => formatDoc(doc));
+    const appointments = snapshot.docs.map(doc => formatDoc(doc)).filter(Boolean);
 
     // Fetch doctor info for each appointment (since Firestore doesn't support joins)
     for (let appointment of appointments) {
@@ -439,7 +439,7 @@ const getOrdersByUser = async (userId) => {
       .where('userId', '==', userId)
       .orderBy('created_at', 'desc')
       .get();
-    return snapshot.docs.map(doc => formatDoc(doc));
+    return snapshot.docs.map(doc => formatDoc(doc)).filter(Boolean);
   } catch (error) {
     console.error('Firestore getOrdersByUser error:', error.message);
     return []; // Return empty array to prevent crash
