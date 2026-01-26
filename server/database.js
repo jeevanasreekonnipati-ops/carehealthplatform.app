@@ -35,8 +35,56 @@ const MOCK_MEDICINES = [
     description: 'Antibiotic used to treat bacterial infections.',
     price: 15.00,
     category: 'Antibiotics',
-    image: 'https://via.placeholder.com/150?text=Amoxicillin',
+    image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&q=80',
     requiresPrescription: true
+  }
+];
+
+const MOCK_DOCTORS = [
+  {
+    id: 'd1',
+    name: 'Dr. S. Anwar Basha',
+    specialization: 'General Surgery',
+    experience: 15,
+    fees: 500,
+    bio: 'Highly experienced General Surgeon specializing in advanced laparoscopic surgeries.',
+    image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&q=80',
+    rating: 4.8
+  },
+  {
+    id: 'd2',
+    name: 'Dr. Harshita Reddy G',
+    specialization: 'General Medicine',
+    experience: 11,
+    fees: 400,
+    bio: 'General Physician specializing in diabetes management and infectious diseases.',
+    image: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&q=80',
+    rating: 4.9
+  }
+];
+
+const MOCK_HOSPITALS = [
+  {
+    id: 'h1',
+    name: 'SVIMS Hospital',
+    address: 'Alipiri Road',
+    city: 'Tirupati',
+    latitude: 13.6373,
+    longitude: 79.4063,
+    services: 'Specialized Tertiary Care, Cardiac, Oncology',
+    rating: 4.8,
+    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400'
+  },
+  {
+    id: 'h2',
+    name: 'Apollo Hospitals',
+    address: 'Renigunta Road',
+    city: 'Tirupati',
+    latitude: 13.6262,
+    longitude: 79.4323,
+    services: 'Multi-specialty, 24/7 Emergency',
+    rating: 4.6,
+    image: 'https://images.unsplash.com/photo-1512678080530-7760d81faba6?w=400'
   }
 ];
 
@@ -189,9 +237,16 @@ const getHospitals = async (filters = {}) => {
       query = query.where('city', '==', filters.city);
     }
     const snapshot = await query.get();
-    return snapshot.docs.map(doc => formatDoc(doc));
+    const hospitals = snapshot.docs.map(doc => formatDoc(doc));
+
+    if (hospitals.length === 0 && !filters.city) {
+      return MOCK_HOSPITALS;
+    }
+
+    return hospitals;
   } catch (error) {
-    throw error;
+    console.error('Firestore getHospitals error, returning mock data:', error.message);
+    return MOCK_HOSPITALS;
   }
 };
 
@@ -220,9 +275,14 @@ const getDoctors = async (filters = {}) => {
       doctors = doctors.filter(doc => doc.name.toLowerCase().includes(q));
     }
 
+    if (doctors.length === 0 && !filters.query && !filters.specialty) {
+      return MOCK_DOCTORS;
+    }
+
     return doctors;
   } catch (error) {
-    throw error;
+    console.error('Firestore getDoctors error, returning mock data:', error.message);
+    return MOCK_DOCTORS;
   }
 };
 
