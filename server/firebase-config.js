@@ -7,7 +7,11 @@ let serviceAccount;
 try {
     if (process.env.FIREBASE_SERVICE_ACCOUNT) {
         // Support passing the service account JSON as a string (useful for Vercel/Render)
-        serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+        try {
+            serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+        } catch (parseError) {
+            console.error('FIREBASE_SERVICE_ACCOUNT JSON Parse Error:', parseError.message);
+        }
     } else if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
         // If env var is set, let the SDK handle it
     } else {
