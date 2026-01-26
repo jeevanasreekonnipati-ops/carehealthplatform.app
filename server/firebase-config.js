@@ -5,17 +5,18 @@ require('dotenv').config();
 let serviceAccount;
 
 try {
-    // try to find the service account key
-    if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-        // If env var is set, let the SDK handle it or load it if it's a path
-        // But usually admin.initializeApp() with no args picks up GOOGLE_APPLICATION_CREDENTIALS automatically.
+    if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+        // Support passing the service account JSON as a string (useful for Vercel/Render)
+        serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+    } else if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+        // If env var is set, let the SDK handle it
     } else {
         // Check for local file
         const serviceAccountPath = path.join(__dirname, '../serviceAccountKey.json');
         serviceAccount = require(serviceAccountPath);
     }
 } catch (e) {
-    console.log('No serviceAccountKey.json found or invalid. Using default credentials if available.');
+    console.log('Service account key loading note: Using default credentials or environment variables.');
 }
 
 const firebaseConfig = {
