@@ -1432,8 +1432,6 @@ const getUserByEmail = async (email) => {
     if (snapshot.empty) {
       const stored = MOCK_USERS_STORE.find(u => u.email === email.toLowerCase());
       if (stored) return stored;
-      const stored = MOCK_USERS_STORE.find(u => u.email === email.toLowerCase());
-      if (stored) return stored;
       if (email.toLowerCase() === MOCK_USER.email) return MOCK_USER;
       return null;
     }
@@ -1487,7 +1485,7 @@ const createUser = async (userData) => {
   } catch (error) {
     // Mock user creation
     const { email, name, role = 'patient', ...rest } = userData;
-    return {
+    const newUser = {
       id: 'mock-user-' + Date.now(),
       email: email.toLowerCase(),
       name,
@@ -1495,6 +1493,8 @@ const createUser = async (userData) => {
       ...rest,
       created_at: new Date()
     };
+    MOCK_USERS_STORE.push(newUser);
+    return newUser;
   }
 };
 
