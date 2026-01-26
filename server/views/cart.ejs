@@ -155,8 +155,7 @@
 
                     if (result.success) {
                         localStorage.removeItem('cart');
-                        alert(`🎉 Order Placed Successfully!\n\nOrder #${result.orderId}\n\nYour medicines will be delivered to:\n${address}\n\nCheck your dashboard for order tracking.`);
-                        window.location.href = '/dashboard';
+                        window.location.href = '/api/orders/success?id=' + result.orderId;
                     } else {
                         alert('❌ Checkout failed: ' + result.error);
                     }

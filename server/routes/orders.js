@@ -8,6 +8,11 @@ router.get('/cart', requireAuth, (req, res) => {
     res.render('cart', { user: req.user });
 });
 
+// Success View
+router.get('/success', requireAuth, (req, res) => {
+    res.render('order-success', { user: req.user });
+});
+
 // Checkout Process
 router.post('/checkout', requireAuth, async (req, res) => {
     try {

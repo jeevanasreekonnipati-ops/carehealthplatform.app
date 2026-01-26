@@ -12,54 +12,1347 @@ const ordersRef = db.collection('orders');
 
 const MOCK_MEDICINES = [
   {
-    id: '1',
-    name: 'Paracetamol 500mg',
-    description: 'Effective pain reliever and fever reducer.',
-    price: 5.00,
-    category: 'Pain Relief',
-    image: 'https://via.placeholder.com/150?text=Paracetamol',
-    requiresPrescription: false
+    "id": "1",
+    "name": "Paracetamol 5mg",
+    "description": "Quality assured Paracetamol for effective care.",
+    "price": 10,
+    "category": "Pain Relief",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": true
   },
   {
-    id: '2',
-    name: 'Vitamin C 1000mg',
-    description: 'Immunity booster dietary supplement.',
-    price: 12.00,
-    category: 'Supplements',
-    image: 'https://via.placeholder.com/150?text=Vit+C',
-    requiresPrescription: false
+    "id": "2",
+    "name": "Azithromycin 55mg",
+    "description": "Quality assured Azithromycin for effective care.",
+    "price": 11,
+    "category": "Antibiotics",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
   },
   {
-    id: '3',
-    name: 'Amoxicillin 500mg',
-    description: 'Antibiotic used to treat bacterial infections.',
-    price: 15.00,
-    category: 'Antibiotics',
-    image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&q=80',
-    requiresPrescription: true
+    "id": "3",
+    "name": "B12 105mg",
+    "description": "Quality assured B12 for effective care.",
+    "price": 12,
+    "category": "Supplements",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "4",
+    "name": "Mucinex 155mg",
+    "description": "Quality assured Mucinex for effective care.",
+    "price": 13,
+    "category": "Cold & Flu",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "5",
+    "name": "Ecosprin 205mg",
+    "description": "Quality assured Ecosprin for effective care.",
+    "price": 14,
+    "category": "Heart Health",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "6",
+    "name": "Metformin 255mg",
+    "description": "Quality assured Metformin for effective care.",
+    "price": 15,
+    "category": "Diabetes",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "7",
+    "name": "Allegra 305mg",
+    "description": "Quality assured Allegra for effective care.",
+    "price": 16,
+    "category": "Allergies",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "8",
+    "name": "Ointment 355mg",
+    "description": "Quality assured Ointment for effective care.",
+    "price": 17,
+    "category": "First Aid",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": true
+  },
+  {
+    "id": "9",
+    "name": "Magnesium 405mg",
+    "description": "Quality assured Magnesium for effective care.",
+    "price": 18,
+    "category": "Vitamins",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "10",
+    "name": "Naproxen 5mg",
+    "description": "Quality assured Naproxen for effective care.",
+    "price": 19,
+    "category": "Pain Relief",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "11",
+    "name": "Amoxicillin 55mg",
+    "description": "Quality assured Amoxicillin for effective care.",
+    "price": 20,
+    "category": "Antibiotics",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "12",
+    "name": "Multivitamin 105mg",
+    "description": "Quality assured Multivitamin for effective care.",
+    "price": 21,
+    "category": "Supplements",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "13",
+    "name": "Strepsils 155mg",
+    "description": "Quality assured Strepsils for effective care.",
+    "price": 22,
+    "category": "Cold & Flu",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "14",
+    "name": "Telmisartan 205mg",
+    "description": "Quality assured Telmisartan for effective care.",
+    "price": 23,
+    "category": "Heart Health",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "15",
+    "name": "Glucerna 255mg",
+    "description": "Quality assured Glucerna for effective care.",
+    "price": 24,
+    "category": "Diabetes",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": true
+  },
+  {
+    "id": "16",
+    "name": "Cetirizine 305mg",
+    "description": "Quality assured Cetirizine for effective care.",
+    "price": 25,
+    "category": "Allergies",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "17",
+    "name": "Dettol 355mg",
+    "description": "Quality assured Dettol for effective care.",
+    "price": 26,
+    "category": "First Aid",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "18",
+    "name": "Zinc 405mg",
+    "description": "Quality assured Zinc for effective care.",
+    "price": 27,
+    "category": "Vitamins",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "19",
+    "name": "Dolo 650 5mg",
+    "description": "Quality assured Dolo 650 for effective care.",
+    "price": 28,
+    "category": "Pain Relief",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "20",
+    "name": "Doxycycline 55mg",
+    "description": "Quality assured Doxycycline for effective care.",
+    "price": 29,
+    "category": "Antibiotics",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "21",
+    "name": "Iron 105mg",
+    "description": "Quality assured Iron for effective care.",
+    "price": 30,
+    "category": "Supplements",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "22",
+    "name": "Vicks Vaporub 155mg",
+    "description": "Quality assured Vicks Vaporub for effective care.",
+    "price": 31,
+    "category": "Cold & Flu",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": true
+  },
+  {
+    "id": "23",
+    "name": "Lisinopril 205mg",
+    "description": "Quality assured Lisinopril for effective care.",
+    "price": 32,
+    "category": "Heart Health",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "24",
+    "name": "Jalra 255mg",
+    "description": "Quality assured Jalra for effective care.",
+    "price": 33,
+    "category": "Diabetes",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "25",
+    "name": "Flonase 305mg",
+    "description": "Quality assured Flonase for effective care.",
+    "price": 34,
+    "category": "Allergies",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "26",
+    "name": "Bandages 355mg",
+    "description": "Quality assured Bandages for effective care.",
+    "price": 35,
+    "category": "First Aid",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "27",
+    "name": "Limcee 405mg",
+    "description": "Quality assured Limcee for effective care.",
+    "price": 36,
+    "category": "Vitamins",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "28",
+    "name": "Calpol 5mg",
+    "description": "Quality assured Calpol for effective care.",
+    "price": 37,
+    "category": "Pain Relief",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "29",
+    "name": "Cephalexin 55mg",
+    "description": "Quality assured Cephalexin for effective care.",
+    "price": 38,
+    "category": "Antibiotics",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": true
+  },
+  {
+    "id": "30",
+    "name": "Vitamin D3 105mg",
+    "description": "Quality assured Vitamin D3 for effective care.",
+    "price": 39,
+    "category": "Supplements",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "31",
+    "name": "Cough Syrup 155mg",
+    "description": "Quality assured Cough Syrup for effective care.",
+    "price": 40,
+    "category": "Cold & Flu",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "32",
+    "name": "Amlodipine 205mg",
+    "description": "Quality assured Amlodipine for effective care.",
+    "price": 41,
+    "category": "Heart Health",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "33",
+    "name": "Insulin 255mg",
+    "description": "Quality assured Insulin for effective care.",
+    "price": 42,
+    "category": "Diabetes",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "34",
+    "name": "Zyrtec 305mg",
+    "description": "Quality assured Zyrtec for effective care.",
+    "price": 43,
+    "category": "Allergies",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "35",
+    "name": "Thermometer 355mg",
+    "description": "Quality assured Thermometer for effective care.",
+    "price": 44,
+    "category": "First Aid",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "36",
+    "name": "Becosules 405mg",
+    "description": "Quality assured Becosules for effective care.",
+    "price": 45,
+    "category": "Vitamins",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": true
+  },
+  {
+    "id": "37",
+    "name": "Ibuprofen 5mg",
+    "description": "Quality assured Ibuprofen for effective care.",
+    "price": 46,
+    "category": "Pain Relief",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "38",
+    "name": "Ciprofloxacin 55mg",
+    "description": "Quality assured Ciprofloxacin for effective care.",
+    "price": 47,
+    "category": "Antibiotics",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "39",
+    "name": "Zincavit 105mg",
+    "description": "Quality assured Zincavit for effective care.",
+    "price": 48,
+    "category": "Supplements",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "40",
+    "name": "DayQuil 155mg",
+    "description": "Quality assured DayQuil for effective care.",
+    "price": 49,
+    "category": "Cold & Flu",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "41",
+    "name": "Atorvastatin 205mg",
+    "description": "Quality assured Atorvastatin for effective care.",
+    "price": 50,
+    "category": "Heart Health",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "42",
+    "name": "Glycomet 255mg",
+    "description": "Quality assured Glycomet for effective care.",
+    "price": 51,
+    "category": "Diabetes",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "43",
+    "name": "Claritin 305mg",
+    "description": "Quality assured Claritin for effective care.",
+    "price": 52,
+    "category": "Allergies",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": true
+  },
+  {
+    "id": "44",
+    "name": "Savlon 355mg",
+    "description": "Quality assured Savlon for effective care.",
+    "price": 53,
+    "category": "First Aid",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "45",
+    "name": "Calcium 405mg",
+    "description": "Quality assured Calcium for effective care.",
+    "price": 54,
+    "category": "Vitamins",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "46",
+    "name": "Aspirin 5mg",
+    "description": "Quality assured Aspirin for effective care.",
+    "price": 55,
+    "category": "Pain Relief",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "47",
+    "name": "Azithromycin 55mg",
+    "description": "Quality assured Azithromycin for effective care.",
+    "price": 56,
+    "category": "Antibiotics",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "48",
+    "name": "Omega 3 105mg",
+    "description": "Quality assured Omega 3 for effective care.",
+    "price": 57,
+    "category": "Supplements",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "49",
+    "name": "Mucinex 155mg",
+    "description": "Quality assured Mucinex for effective care.",
+    "price": 58,
+    "category": "Cold & Flu",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "50",
+    "name": "Ecosprin 205mg",
+    "description": "Quality assured Ecosprin for effective care.",
+    "price": 59,
+    "category": "Heart Health",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": true
+  },
+  {
+    "id": "51",
+    "name": "Metformin 255mg",
+    "description": "Quality assured Metformin for effective care.",
+    "price": 60,
+    "category": "Diabetes",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "52",
+    "name": "Allegra 305mg",
+    "description": "Quality assured Allegra for effective care.",
+    "price": 61,
+    "category": "Allergies",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "53",
+    "name": "Ointment 355mg",
+    "description": "Quality assured Ointment for effective care.",
+    "price": 62,
+    "category": "First Aid",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "54",
+    "name": "Magnesium 405mg",
+    "description": "Quality assured Magnesium for effective care.",
+    "price": 63,
+    "category": "Vitamins",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "55",
+    "name": "Crocin 5mg",
+    "description": "Quality assured Crocin for effective care.",
+    "price": 64,
+    "category": "Pain Relief",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "56",
+    "name": "Amoxicillin 55mg",
+    "description": "Quality assured Amoxicillin for effective care.",
+    "price": 65,
+    "category": "Antibiotics",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "57",
+    "name": "Vitamin C 105mg",
+    "description": "Quality assured Vitamin C for effective care.",
+    "price": 66,
+    "category": "Supplements",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": true
+  },
+  {
+    "id": "58",
+    "name": "Strepsils 155mg",
+    "description": "Quality assured Strepsils for effective care.",
+    "price": 67,
+    "category": "Cold & Flu",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "59",
+    "name": "Telmisartan 205mg",
+    "description": "Quality assured Telmisartan for effective care.",
+    "price": 68,
+    "category": "Heart Health",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "60",
+    "name": "Glucerna 255mg",
+    "description": "Quality assured Glucerna for effective care.",
+    "price": 69,
+    "category": "Diabetes",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "61",
+    "name": "Cetirizine 305mg",
+    "description": "Quality assured Cetirizine for effective care.",
+    "price": 70,
+    "category": "Allergies",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "62",
+    "name": "Dettol 355mg",
+    "description": "Quality assured Dettol for effective care.",
+    "price": 71,
+    "category": "First Aid",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "63",
+    "name": "Zinc 405mg",
+    "description": "Quality assured Zinc for effective care.",
+    "price": 72,
+    "category": "Vitamins",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "64",
+    "name": "Paracetamol 5mg",
+    "description": "Quality assured Paracetamol for effective care.",
+    "price": 73,
+    "category": "Pain Relief",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": true
+  },
+  {
+    "id": "65",
+    "name": "Doxycycline 55mg",
+    "description": "Quality assured Doxycycline for effective care.",
+    "price": 74,
+    "category": "Antibiotics",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "66",
+    "name": "B12 105mg",
+    "description": "Quality assured B12 for effective care.",
+    "price": 75,
+    "category": "Supplements",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "67",
+    "name": "Vicks Vaporub 155mg",
+    "description": "Quality assured Vicks Vaporub for effective care.",
+    "price": 76,
+    "category": "Cold & Flu",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "68",
+    "name": "Lisinopril 205mg",
+    "description": "Quality assured Lisinopril for effective care.",
+    "price": 77,
+    "category": "Heart Health",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "69",
+    "name": "Jalra 255mg",
+    "description": "Quality assured Jalra for effective care.",
+    "price": 78,
+    "category": "Diabetes",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "70",
+    "name": "Flonase 305mg",
+    "description": "Quality assured Flonase for effective care.",
+    "price": 79,
+    "category": "Allergies",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "71",
+    "name": "Bandages 355mg",
+    "description": "Quality assured Bandages for effective care.",
+    "price": 80,
+    "category": "First Aid",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": true
+  },
+  {
+    "id": "72",
+    "name": "Limcee 405mg",
+    "description": "Quality assured Limcee for effective care.",
+    "price": 81,
+    "category": "Vitamins",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "73",
+    "name": "Naproxen 5mg",
+    "description": "Quality assured Naproxen for effective care.",
+    "price": 82,
+    "category": "Pain Relief",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "74",
+    "name": "Cephalexin 55mg",
+    "description": "Quality assured Cephalexin for effective care.",
+    "price": 83,
+    "category": "Antibiotics",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "75",
+    "name": "Multivitamin 105mg",
+    "description": "Quality assured Multivitamin for effective care.",
+    "price": 84,
+    "category": "Supplements",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "76",
+    "name": "Cough Syrup 155mg",
+    "description": "Quality assured Cough Syrup for effective care.",
+    "price": 85,
+    "category": "Cold & Flu",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "77",
+    "name": "Amlodipine 205mg",
+    "description": "Quality assured Amlodipine for effective care.",
+    "price": 86,
+    "category": "Heart Health",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "78",
+    "name": "Insulin 255mg",
+    "description": "Quality assured Insulin for effective care.",
+    "price": 87,
+    "category": "Diabetes",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": true
+  },
+  {
+    "id": "79",
+    "name": "Zyrtec 305mg",
+    "description": "Quality assured Zyrtec for effective care.",
+    "price": 88,
+    "category": "Allergies",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "80",
+    "name": "Thermometer 355mg",
+    "description": "Quality assured Thermometer for effective care.",
+    "price": 89,
+    "category": "First Aid",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "81",
+    "name": "Becosules 405mg",
+    "description": "Quality assured Becosules for effective care.",
+    "price": 90,
+    "category": "Vitamins",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "82",
+    "name": "Dolo 650 5mg",
+    "description": "Quality assured Dolo 650 for effective care.",
+    "price": 91,
+    "category": "Pain Relief",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "83",
+    "name": "Ciprofloxacin 55mg",
+    "description": "Quality assured Ciprofloxacin for effective care.",
+    "price": 92,
+    "category": "Antibiotics",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "84",
+    "name": "Iron 105mg",
+    "description": "Quality assured Iron for effective care.",
+    "price": 93,
+    "category": "Supplements",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "85",
+    "name": "DayQuil 155mg",
+    "description": "Quality assured DayQuil for effective care.",
+    "price": 94,
+    "category": "Cold & Flu",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": true
+  },
+  {
+    "id": "86",
+    "name": "Atorvastatin 205mg",
+    "description": "Quality assured Atorvastatin for effective care.",
+    "price": 95,
+    "category": "Heart Health",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "87",
+    "name": "Glycomet 255mg",
+    "description": "Quality assured Glycomet for effective care.",
+    "price": 96,
+    "category": "Diabetes",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "88",
+    "name": "Claritin 305mg",
+    "description": "Quality assured Claritin for effective care.",
+    "price": 97,
+    "category": "Allergies",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "89",
+    "name": "Savlon 355mg",
+    "description": "Quality assured Savlon for effective care.",
+    "price": 98,
+    "category": "First Aid",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "90",
+    "name": "Calcium 405mg",
+    "description": "Quality assured Calcium for effective care.",
+    "price": 99,
+    "category": "Vitamins",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "91",
+    "name": "Calpol 5mg",
+    "description": "Quality assured Calpol for effective care.",
+    "price": 10,
+    "category": "Pain Relief",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "92",
+    "name": "Azithromycin 55mg",
+    "description": "Quality assured Azithromycin for effective care.",
+    "price": 11,
+    "category": "Antibiotics",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": true
+  },
+  {
+    "id": "93",
+    "name": "Vitamin D3 105mg",
+    "description": "Quality assured Vitamin D3 for effective care.",
+    "price": 12,
+    "category": "Supplements",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "94",
+    "name": "Mucinex 155mg",
+    "description": "Quality assured Mucinex for effective care.",
+    "price": 13,
+    "category": "Cold & Flu",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "95",
+    "name": "Ecosprin 205mg",
+    "description": "Quality assured Ecosprin for effective care.",
+    "price": 14,
+    "category": "Heart Health",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "96",
+    "name": "Metformin 255mg",
+    "description": "Quality assured Metformin for effective care.",
+    "price": 15,
+    "category": "Diabetes",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "97",
+    "name": "Allegra 305mg",
+    "description": "Quality assured Allegra for effective care.",
+    "price": 16,
+    "category": "Allergies",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "98",
+    "name": "Ointment 355mg",
+    "description": "Quality assured Ointment for effective care.",
+    "price": 17,
+    "category": "First Aid",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "99",
+    "name": "Magnesium 405mg",
+    "description": "Quality assured Magnesium for effective care.",
+    "price": 18,
+    "category": "Vitamins",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": true
+  },
+  {
+    "id": "100",
+    "name": "Ibuprofen 5mg",
+    "description": "Quality assured Ibuprofen for effective care.",
+    "price": 19,
+    "category": "Pain Relief",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "101",
+    "name": "Amoxicillin 55mg",
+    "description": "Quality assured Amoxicillin for effective care.",
+    "price": 20,
+    "category": "Antibiotics",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "102",
+    "name": "Zincavit 105mg",
+    "description": "Quality assured Zincavit for effective care.",
+    "price": 21,
+    "category": "Supplements",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "103",
+    "name": "Strepsils 155mg",
+    "description": "Quality assured Strepsils for effective care.",
+    "price": 22,
+    "category": "Cold & Flu",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "104",
+    "name": "Telmisartan 205mg",
+    "description": "Quality assured Telmisartan for effective care.",
+    "price": 23,
+    "category": "Heart Health",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "105",
+    "name": "Glucerna 255mg",
+    "description": "Quality assured Glucerna for effective care.",
+    "price": 24,
+    "category": "Diabetes",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "106",
+    "name": "Cetirizine 305mg",
+    "description": "Quality assured Cetirizine for effective care.",
+    "price": 25,
+    "category": "Allergies",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": true
+  },
+  {
+    "id": "107",
+    "name": "Dettol 355mg",
+    "description": "Quality assured Dettol for effective care.",
+    "price": 26,
+    "category": "First Aid",
+    "image": "https://images.unsplash.com/photo-1512428559087-560ad5ceab42?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "108",
+    "name": "Zinc 405mg",
+    "description": "Quality assured Zinc for effective care.",
+    "price": 27,
+    "category": "Vitamins",
+    "image": "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "109",
+    "name": "Aspirin 5mg",
+    "description": "Quality assured Aspirin for effective care.",
+    "price": 28,
+    "category": "Pain Relief",
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400",
+    "requiresPrescription": false
+  },
+  {
+    "id": "110",
+    "name": "Doxycycline 55mg",
+    "description": "Quality assured Doxycycline for effective care.",
+    "price": 29,
+    "category": "Antibiotics",
+    "image": "https://images.unsplash.com/photo-1576073719710-aa5e3f4b5059?w=400",
+    "requiresPrescription": false
   }
 ];
 
 const MOCK_DOCTORS = [
   {
-    id: 'd1',
-    name: 'Dr. S. Anwar Basha',
-    specialization: 'General Surgery',
-    experience: 15,
-    fees: 500,
-    bio: 'Highly experienced General Surgeon specializing in advanced laparoscopic surgeries.',
-    image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&q=80',
-    rating: 4.8
+    "id": "d1",
+    "name": "Dr. S. Anwar Basha",
+    "specialization": "Cardiology",
+    "experience": 5,
+    "fees": 300,
+    "bio": "Renowned expert in Cardiology with over 5 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400",
+    "rating": "4.8"
   },
   {
-    id: 'd2',
-    name: 'Dr. Harshita Reddy G',
-    specialization: 'General Medicine',
-    experience: 11,
-    fees: 400,
-    bio: 'General Physician specializing in diabetes management and infectious diseases.',
-    image: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&q=80',
-    rating: 4.9
+    "id": "d2",
+    "name": "Dr. Harshita Reddy G",
+    "specialization": "Pediatrics",
+    "experience": 6,
+    "fees": 400,
+    "bio": "Renowned expert in Pediatrics with over 6 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400",
+    "rating": "4.8"
+  },
+  {
+    "id": "d3",
+    "name": "Dr. Rajesh Khanna",
+    "specialization": "Neurology",
+    "experience": 7,
+    "fees": 500,
+    "bio": "Renowned expert in Neurology with over 7 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400",
+    "rating": "4.8"
+  },
+  {
+    "id": "d4",
+    "name": "Dr. Smita Patil",
+    "specialization": "Orthopedics",
+    "experience": 8,
+    "fees": 600,
+    "bio": "Renowned expert in Orthopedics with over 8 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400",
+    "rating": "5.0"
+  },
+  {
+    "id": "d5",
+    "name": "Dr. Arjun Reddy",
+    "specialization": "General Medicine",
+    "experience": 9,
+    "fees": 700,
+    "bio": "Renowned expert in General Medicine with over 9 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400",
+    "rating": "4.6"
+  },
+  {
+    "id": "d6",
+    "name": "Dr. Vikram Seth",
+    "specialization": "Dermatology",
+    "experience": 10,
+    "fees": 800,
+    "bio": "Renowned expert in Dermatology with over 10 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400",
+    "rating": "4.7"
+  },
+  {
+    "id": "d7",
+    "name": "Dr. Anjali Menon",
+    "specialization": "General Surgery",
+    "experience": 11,
+    "fees": 900,
+    "bio": "Renowned expert in General Surgery with over 11 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400",
+    "rating": "4.7"
+  },
+  {
+    "id": "d8",
+    "name": "Dr. Sanjay Gupta",
+    "specialization": "Gynecology",
+    "experience": 12,
+    "fees": 1000,
+    "bio": "Renowned expert in Gynecology with over 12 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400",
+    "rating": "5.0"
+  },
+  {
+    "id": "d9",
+    "name": "Dr. Priya Mani",
+    "specialization": "Psychiatry",
+    "experience": 13,
+    "fees": 1100,
+    "bio": "Renowned expert in Psychiatry with over 13 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400",
+    "rating": "4.9"
+  },
+  {
+    "id": "d10",
+    "name": "Dr. Rahul Bose",
+    "specialization": "Cardiology",
+    "experience": 14,
+    "fees": 1200,
+    "bio": "Renowned expert in Cardiology with over 14 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400",
+    "rating": "4.7"
+  },
+  {
+    "id": "d11",
+    "name": "Dr. Kavita Krishnamurthy",
+    "specialization": "Pediatrics",
+    "experience": 15,
+    "fees": 300,
+    "bio": "Renowned expert in Pediatrics with over 15 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400",
+    "rating": "4.5"
+  },
+  {
+    "id": "d12",
+    "name": "Dr. Neeraj Chopra",
+    "specialization": "Neurology",
+    "experience": 16,
+    "fees": 400,
+    "bio": "Renowned expert in Neurology with over 16 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400",
+    "rating": "4.7"
+  },
+  {
+    "id": "d13",
+    "name": "Dr. Sindhu V.",
+    "specialization": "Orthopedics",
+    "experience": 17,
+    "fees": 500,
+    "bio": "Renowned expert in Orthopedics with over 17 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400",
+    "rating": "4.6"
+  },
+  {
+    "id": "d14",
+    "name": "Dr. Mahesh Babu",
+    "specialization": "General Medicine",
+    "experience": 18,
+    "fees": 600,
+    "bio": "Renowned expert in General Medicine with over 18 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400",
+    "rating": "4.7"
+  },
+  {
+    "id": "d15",
+    "name": "Dr. Kamal Haasan",
+    "specialization": "Dermatology",
+    "experience": 19,
+    "fees": 700,
+    "bio": "Renowned expert in Dermatology with over 19 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400",
+    "rating": "4.8"
+  },
+  {
+    "id": "d16",
+    "name": "Dr. Tabu",
+    "specialization": "General Surgery",
+    "experience": 20,
+    "fees": 800,
+    "bio": "Renowned expert in General Surgery with over 20 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400",
+    "rating": "4.8"
+  },
+  {
+    "id": "d17",
+    "name": "Dr. Irfan Khan",
+    "specialization": "Gynecology",
+    "experience": 21,
+    "fees": 900,
+    "bio": "Renowned expert in Gynecology with over 21 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400",
+    "rating": "4.9"
+  },
+  {
+    "id": "d18",
+    "name": "Dr. Nawazuddin",
+    "specialization": "Psychiatry",
+    "experience": 22,
+    "fees": 1000,
+    "bio": "Renowned expert in Psychiatry with over 22 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400",
+    "rating": "4.7"
+  },
+  {
+    "id": "d19",
+    "name": "Dr. Pankaj Tripathi",
+    "specialization": "Cardiology",
+    "experience": 23,
+    "fees": 1100,
+    "bio": "Renowned expert in Cardiology with over 23 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400",
+    "rating": "4.8"
+  },
+  {
+    "id": "d20",
+    "name": "Dr. Manoj Bajpayee",
+    "specialization": "Pediatrics",
+    "experience": 24,
+    "fees": 1200,
+    "bio": "Renowned expert in Pediatrics with over 24 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400",
+    "rating": "5.0"
+  },
+  {
+    "id": "d21",
+    "name": "Dr. Ratna Pathak",
+    "specialization": "Neurology",
+    "experience": 5,
+    "fees": 300,
+    "bio": "Renowned expert in Neurology with over 5 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400",
+    "rating": "4.6"
+  },
+  {
+    "id": "d22",
+    "name": "Dr. Naseeruddin Shah",
+    "specialization": "Orthopedics",
+    "experience": 6,
+    "fees": 400,
+    "bio": "Renowned expert in Orthopedics with over 6 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400",
+    "rating": "4.6"
+  },
+  {
+    "id": "d23",
+    "name": "Dr. Shabana Azmi",
+    "specialization": "General Medicine",
+    "experience": 7,
+    "fees": 500,
+    "bio": "Renowned expert in General Medicine with over 7 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400",
+    "rating": "4.9"
+  },
+  {
+    "id": "d24",
+    "name": "Dr. Om Puri",
+    "specialization": "Dermatology",
+    "experience": 8,
+    "fees": 600,
+    "bio": "Renowned expert in Dermatology with over 8 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400",
+    "rating": "4.8"
+  },
+  {
+    "id": "d25",
+    "name": "Dr. Amrish Puri",
+    "specialization": "General Surgery",
+    "experience": 9,
+    "fees": 700,
+    "bio": "Renowned expert in General Surgery with over 9 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400",
+    "rating": "4.6"
+  },
+  {
+    "id": "d26",
+    "name": "Dr. Rekha",
+    "specialization": "Gynecology",
+    "experience": 10,
+    "fees": 800,
+    "bio": "Renowned expert in Gynecology with over 10 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400",
+    "rating": "4.9"
+  },
+  {
+    "id": "d27",
+    "name": "Dr. Hema Malini",
+    "specialization": "Psychiatry",
+    "experience": 11,
+    "fees": 900,
+    "bio": "Renowned expert in Psychiatry with over 11 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400",
+    "rating": "5.0"
+  },
+  {
+    "id": "d28",
+    "name": "Dr. Amitabh",
+    "specialization": "Cardiology",
+    "experience": 12,
+    "fees": 1000,
+    "bio": "Renowned expert in Cardiology with over 12 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400",
+    "rating": "4.8"
+  },
+  {
+    "id": "d29",
+    "name": "Dr. Shah Rukh",
+    "specialization": "Pediatrics",
+    "experience": 13,
+    "fees": 1100,
+    "bio": "Renowned expert in Pediatrics with over 13 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400",
+    "rating": "4.7"
+  },
+  {
+    "id": "d30",
+    "name": "Dr. Salman",
+    "specialization": "Neurology",
+    "experience": 14,
+    "fees": 1200,
+    "bio": "Renowned expert in Neurology with over 14 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400",
+    "rating": "4.9"
+  },
+  {
+    "id": "d31",
+    "name": "Dr. Aamir",
+    "specialization": "Orthopedics",
+    "experience": 15,
+    "fees": 300,
+    "bio": "Renowned expert in Orthopedics with over 15 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400",
+    "rating": "4.9"
+  },
+  {
+    "id": "d32",
+    "name": "Dr. Katrina Kaif",
+    "specialization": "General Medicine",
+    "experience": 16,
+    "fees": 400,
+    "bio": "Renowned expert in General Medicine with over 16 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400",
+    "rating": "5.0"
+  },
+  {
+    "id": "d33",
+    "name": "Dr. Deepika P",
+    "specialization": "Dermatology",
+    "experience": 17,
+    "fees": 500,
+    "bio": "Renowned expert in Dermatology with over 17 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400",
+    "rating": "4.5"
+  },
+  {
+    "id": "d34",
+    "name": "Dr. Ranbir Kapoor",
+    "specialization": "General Surgery",
+    "experience": 18,
+    "fees": 600,
+    "bio": "Renowned expert in General Surgery with over 18 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400",
+    "rating": "4.7"
+  },
+  {
+    "id": "d35",
+    "name": "Dr. Alia Bhatt",
+    "specialization": "Gynecology",
+    "experience": 19,
+    "fees": 700,
+    "bio": "Renowned expert in Gynecology with over 19 years of clinical excellence.",
+    "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400",
+    "rating": "4.7"
   }
 ];
 
@@ -104,6 +1397,7 @@ const getMockVitals = (userId) => {
   ];
 };
 
+const MOCK_USERS_STORE = [];
 const MOCK_USER = {
   id: 'demo-user-123',
   email: 'test@example.com',
@@ -136,6 +1430,10 @@ const getUserByEmail = async (email) => {
   try {
     const snapshot = await usersRef.where('email', '==', email.toLowerCase()).limit(1).get();
     if (snapshot.empty) {
+      const stored = MOCK_USERS_STORE.find(u => u.email === email.toLowerCase());
+      if (stored) return stored;
+      const stored = MOCK_USERS_STORE.find(u => u.email === email.toLowerCase());
+      if (stored) return stored;
       if (email.toLowerCase() === MOCK_USER.email) return MOCK_USER;
       return null;
     }

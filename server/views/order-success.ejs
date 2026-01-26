@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Placed - Smart Health</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .success-box {
+            text-align: center;
+            padding: 60px 20px;
+            max-width: 600px;
+            margin: 50px auto;
+            background: var(--bg-dark);
+            border-radius: 30px;
+            border: var(--glass-border);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .checkmark {
+            font-size: 80px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .order-id {
+            font-family: monospace;
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--primary);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 1.2em;
+            margin: 15px 0;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('partials/header', { user: user }) %>
+        <div class="container">
+            <div class="success-box">
+                <span class="checkmark">✅</span>
+                <h1 style="color: var(--text-bright); margin-bottom: 10px;">Order Placed Successfully!</h1>
+                <p style="color: var(--text-dim); font-size: 1.1em;">Your healthcare essentials are being prepared for
+                    delivery.</p>
+
+                <div class="order-id" id="display-order-id">Loading...</div>
+
+                <p style="color: var(--text-dim); margin: 25px 0;">We've sent a detailed confirmation to your registered
+                    email address.</p>
+
+                <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px;">
+                    <a href="/dashboard" class="btn">Go to Dashboard</a>
+                    <a href="/pharmacy" class="btn alt">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Get order ID from URL params
+            const params = new URLSearchParams(window.location.search);
+            const orderId = params.get('id');
+            if (orderId) {
+                document.getElementById('display-order-id').textContent = 'Order #' + orderId;
+            }
+        </script>
+</body>
+
+</html>
