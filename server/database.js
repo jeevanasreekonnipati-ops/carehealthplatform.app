@@ -403,7 +403,8 @@ const getAppointmentsByUser = async (userId) => {
 
     return appointments;
   } catch (error) {
-    throw error;
+    console.error('Firestore getAppointmentsByUser error:', error.message);
+    return []; // Return empty array to prevent crash
   }
 };
 
@@ -432,7 +433,8 @@ const getOrdersByUser = async (userId) => {
       .get();
     return snapshot.docs.map(doc => formatDoc(doc));
   } catch (error) {
-    throw error;
+    console.error('Firestore getOrdersByUser error:', error.message);
+    return []; // Return empty array to prevent crash
   }
 };
 

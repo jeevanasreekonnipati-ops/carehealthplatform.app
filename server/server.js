@@ -19,9 +19,9 @@ require("./middleware/passport-config");
 // Initialize Express App
 const app = express();
 
-// Initialize SQLite database
-// Database will be synced and demo user created if needed (handled in database.js)
-console.log("SQLite database adapter loaded");
+// Initialize Database
+// We are now using Firestore for cloud capability
+console.log("Cloud Firestore database adapter loaded");
 
 // View engine setup
 app.set("view engine", "ejs");
