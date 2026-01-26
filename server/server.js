@@ -83,16 +83,26 @@ app.get("/login", redirectIfLoggedIn, (req, res) => {
 
 app.get("/health-check", async (req, res) => {
   try {
-    const doctors = await db.getDoctors({});
+    const firebaseLinked = !!process.env.FIREBASE_SERVICE_ACCOUNT;
+    const adminApps = passport.instance ? "check" : "no"; // Just checking objects
+
+    // Test database call with timeout
+    const dbPromise = db.getDoctors({}).catch(e => ({ error: e.message }));
+    const doctors = await Promise.race([
+      dbPromise,
+      new Promise(resolve => setTimeout(() => resolve({ timeout: true }), 3000))
+    ]);
+
     res.json({
       status: "online",
       env: process.env.NODE_ENV,
-      database: "firestore",
-      results: doctors.length > 0 ? "connected" : "empty",
-      count: doctors.length
+      firebase_env_present: firebaseLinked,
+      firebase_initialized: !!db,
+      db_response: doctors,
+      timestamp: new Date().toISOString()
     });
   } catch (e) {
-    res.status(500).json({ status: "error", message: e.message });
+    res.status(500).json({ status: "error", message: e.message, stack: process.env.NODE_ENV === 'development' ? e.stack : undefined });
   }
 });
 
