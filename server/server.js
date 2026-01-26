@@ -81,6 +81,21 @@ app.get("/login", redirectIfLoggedIn, (req, res) => {
   res.render("login", { error: null, user: null });
 });
 
+app.get("/health-check", async (req, res) => {
+  try {
+    const doctors = await db.getDoctors({});
+    res.json({
+      status: "online",
+      env: process.env.NODE_ENV,
+      database: "firestore",
+      results: doctors.length > 0 ? "connected" : "empty",
+      count: doctors.length
+    });
+  } catch (e) {
+    res.status(500).json({ status: "error", message: e.message });
+  }
+});
+
 app.get("/dashboard", requireAuth, (req, res) => {
   res.render("dashboard", { user: req.user, googleApiKey: process.env.GOOGLE_API_KEY });
 });
