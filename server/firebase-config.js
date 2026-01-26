@@ -33,10 +33,25 @@ if (!admin.apps.length) {
         admin.initializeApp(firebaseConfig);
         console.log('Firebase Admin Initialized');
     } catch (error) {
-        console.error('Firebase Initialization Error:', error);
+        console.error('Firebase Initialization Error:', error.message);
     }
 }
 
-const db = admin.firestore();
+// Ensure db is exported safely - if init failed, we provide a dummy to prevent immediate crashes
+let db;
+try {
+    db = admin.firestore();
+} catch (e) {
+    console.error('Firestore instance creation failed:', e.message);
+    // Provide a dummy collection method to prevent immediate crashes, fallbacks in database.js will handle the rest
+    db = {
+        collection: () => ({
+            where: () => ({ limit: () => ({ get: () => Promise.reject(new Error('Firestore disabled')) }), get: () => Promise.reject(new Error('Firestore disabled')) }),
+            doc: () => ({ get: () => Promise.reject(new Error('Firestore disabled')), update: () => Promise.reject(new Error('Firestore disabled')) }),
+            add: () => Promise.reject(new Error('Firestore disabled')),
+            get: () => Promise.reject(new Error('Firestore disabled'))
+        })
+    };
+}
 
 module.exports = { admin, db };
